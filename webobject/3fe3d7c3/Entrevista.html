@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entrevistas Contenido - TTS with Caching</title>
+    <style>
+        /* Your existing CSS styles */
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 20px;
+            margin: 2cm;
+            line-height: 1.6;
+        }
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            border-bottom: 0px dotted black;
+            text-decoration: none;
+        }
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 200px;
+            background-color: #0000FF;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            border: 0.2cm solid transparent;
+            border-top-color: #555;
+        }
+        .tooltip .tooltiptext::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #555 transparent transparent transparent;
+        }
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+        .green { color: #23D03A; }
+        .red { color: red; }
+        .blue { color: blue; }
+        #tts-controls {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #f0f0f0;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            z-index: 1000;
+        }
+        .sentence-highlight {
+            background-color: #b7e4e8;
+            border-radius: 15px;
+        }
+        .tts-loading {
+            color: #666;
+            font-style: italic;
+        }
+    </style>
+    <!-- ResponsiveVoice with Spanish voice -->
+    <script src="https://code.responsivevoice.org/responsivevoice.js?key=GALn3mgT"></script>
+</head>
+<body>
+    <!-- TTS Controls --
+    <div id="tts-controls">
+        <button id="play-btn">▶ Escuchar</button>
+        <button id="pause-btn">⏸ Pausar</button>
+        <button id="stop-btn">⏹ Parar</button>
+        <div>
+            <label>
+                Velocidad: <input type="range" id="rate" min="0.5" max="2" step="0.1" value="1">
+                <span id="rate-value">1.0</span>
+            </label>
+        </div>
+        <div id="tts-status">Listo</div>
+    </div>>
+
+    <!-- Your visible content (same as before) -->
+    <div id="visible-content">
+</br>
+<p class=MsoNormal align=center style='margin-bottom:6.0pt;text-align:center;
+line-height:normal'><b><u><span lang=es-419 style='font-size:18.0pt;mso-bidi-font-family:
+Calibri;mso-bidi-theme-font:minor-latin;color:#202122;background:white;
+mso-ansi-language:#580A'> Entrevista <o:p></o:p></span></u></b></p>
+
+    <p class="tts-paragraph">
+    <span class="tooltip red">Periodista<span class="tooltiptext">Comentarista, persona que escribe un artículo o hace una entrevista</span></span>: Buenos días, don Juan. <span class="tooltip green">Agradezco<span class="tooltiptext">1ª persona singular del verbo irregular agradecer. Dar gracias</span></span> su disposición para hablar conmigo. <span class="tooltip green">Quiero<span class="tooltiptext">1ª persona singular del verbo querer, verbo con cambio vocálico. Desear, anhelar</span></span> <span class="tooltip blue">conocer<span class="tooltiptext">Informarse </span></span> su opinión sobre cómo la globalización <span class="tooltip green">está<span class="tooltiptext">3ª persona del verbo irregular estar. Encontrarse</span></span> <span class="tooltip blue">afectando<span class="tooltiptext">Influir, alterar</span></span> a los campesinos en México.
+    </p> 
+    <p class="tts-paragraph">
+    <span class="tooltip red">Campesino<span class="tooltiptext">Persona que trabaja en el campo, produce frutas y verduras</span></span>: Buenos días, joven. Claro que sí, <span class="tooltip green">estoy<span class="tooltiptext">1ª persona singular del verbo irregular estar. Encontrarse</span></span> <span class="tooltip red">dispuesto<span class="tooltiptext">Tener actitud para realizar algo</span></span> a compartir mi <span class="tooltip red">punto de vista<span class="tooltiptext">Visión, modo de ver una idea</span></span>. La verdad <span class="tooltip green">es<span class="tooltiptext">3ª persona singular del verbo irregular ser. Existir</span></span> que la globalización nos <span class="tooltip green">trae<span class="tooltiptext">3ª persona singular del verbo irregular traer. Causar, ocasionar, originar</span></span> muchos problemas aquí en <span class="tooltip red">el campo<span class="tooltiptext">Tierra laborable fuera de la ciudad, por ejemplo para plantar verduras</span></span>.
+    </p> 
+    <p class="tts-paragraph">
+    Periodista: ¿<span class="tooltip green">Puede<span class="tooltiptext">3ª persona singular del verbo con cambio vocálico poder. Facilidad para realizar algo, estar en condición de hacer algo</span></span> contar más sobre esas experiencias negativas que <span class="tooltip green">tiene<span class="tooltiptext">3a persona singular del verbo con cambio vocálico tener. Poseer</span></span> la globalización?
+    </p> 
+    <p class="tts-paragraph">
+    Campesino: <span class="tooltip red">Por supuesto<span class="tooltiptext">Ciertamente, seguro, sin duda</span></span>. Una de las cosas que más nos afecta <span class="tooltip green">es<span class="tooltiptext">3ª persona singular del verbo irregular ser. Existir</span></span> la competencia <span class="tooltip red">desleal<span class="tooltiptext">Infiel, traidor</span></span> con los productos extranjeros. Antes, éramos <span class="tooltip red">capaces<span class="tooltiptext">Apto, con talento</span></span> de vender nuestra producción en la región, pero ahora <span class="tooltip green">me encuentro<span class="tooltiptext">1ª persona singular del verbo reflexivo encontrarse, verbo con cambio vocálico. Estar en una situación, posición o lugar</span></span> luchando por <span class="tooltip blue">conseguir<span class="tooltiptext">Lograr, obtener</span></span> <span class="tooltip red">precios justos<span class="tooltiptext">Es el que se considera equitativo y razonable para ambas partes de una transacción. Valor real del producto o servicio sin explotar a ninguna de las partes</span></span> debido a la importación de productos agrícolas más baratos.
+    </p> 
+    <p class="tts-paragraph">
+    Periodista: <span class="tooltip green">Entiendo<span class="tooltiptext">1ª persona singular del verbo entender, verbo con cambio vocálico. Comprender, tener clara una idea</span></span>. ¿Y cómo <span class="tooltip green">se siente<span class="tooltiptext">3ª persona singular del verbo sentirse, verbo con cambio vocálico. Experimentar una sensación, percibir</span></span> usted y los demás campesinos <span class="tooltip red">frente<span class="tooltiptext">Delante de, ante</span></span> a esta situación?
+    </p> 
+    <p class="tts-paragraph">
+    Campesino: ¿Qué <span class="tooltip green">piensa<span class="tooltiptext">3ª persona singular del verbo con cambio vocálico pensar. Creer, razonar, estudiar</span></span> usted? <span class="tooltip green">Nos sentimos<span class="tooltiptext">1ª persona plural del verbo sentirse, verbo con cambio vocálico. Experimentar una sensación, percibir</span></span> impotentes y frustrados. Yo <span class="tooltip green">sé<span class="tooltiptext">1ª persona singular del verbo irregular saber. Conocer, entender</span></span> que no <span class="tooltip green">puedo<span class="tooltiptext">1ª persona singular del verbo con cambio vocálico poder. Facilidad para realizar algo, estar en condición de hacer algo </span></span> competir con los precios de los productos importados, pero tampoco <span class="tooltip green">quiero<span class="tooltiptext">1ª persona singular del verbo querer, verbo con cambio vocálico. Desear, anhelar</span></span> abandonar mis <span class="tooltip red">tierras<span class="tooltiptext">Terreno que se dedica al cultivo, a plantar por ejemplo verduras</span></span> y tradiciones. <span class="tooltip blue">Necesitamos<span class="tooltiptext">Requerir, precisar de algo</span></span> más apoyo del gobierno para <span class="tooltip blue">fortalecer<span class="tooltiptext">Revitalizar, mejorar, hacer más fuerte</span></span> nuestra <span class="tooltip red">agricultura<span class="tooltiptext">Cultivo, labranza de la tierra</span></span> local y <span class="tooltip blue">proteger<span class="tooltiptext">Defender, apoyar</span></span> nuestra forma de vida.
+    </p> 
+    <p class="tts-paragraph">
+    Periodista: ¿<span class="tooltip green">Piensa<span class="tooltiptext">3ª persona singular del verbo con cambio vocálico pensar. Creer, razonar, estudiar</span></span> que hay alguna solución para <span class="tooltip green">resolver<span class="tooltiptext">Infinitivo. Verbo con cambio vocálico. Solucionar</span></span> estos problemas?
+    </p> 
+    <p class="tts-paragraph">
+    Campesino: <span class="tooltip red">Sinceramente<span class="tooltiptext">Adverbio. Decir la verdad</span></span>, no <span class="tooltip green">sé<span class="tooltiptext">1ª persona singular del verbo irregular saber. Conocer, entender</span></span> qué soluciones <span class="tooltip green">puede<span class="tooltiptext">3ª persona singular del verbo con cambio vocálico poder. Tener Facilidad para realizar algo, estar en condición de hacer algo</span></span> <span class="tooltip blue">haber<span class="tooltiptext">Ocurrir, existir</span></span>. Solo <span class="tooltip green">digo<span class="tooltiptext">1ª persona singular del verbo irregular decir. Expresar, manifestar una opinión</span></span> que necesitamos cambios urgentes. Necesitamos un gobierno más <span class="tooltip red">consciente<span class="tooltiptext">Adjetivo. Que tiene conocimiento de algo o se da cuenta de ello</span></span> de nuestras necesidades.
+    </p> 
+    <p class="tts-paragraph">
+    Periodista: <span class="tooltip green">Entiendo<span class="tooltiptext">1ª persona singular del verbo con cambio vocálico entender. Comprender, asimilar una idea</span></span> su punto de vista, don Juan. Gracias por <span class="tooltip blue">compartir<span class="tooltiptext">Contar, comunicar</span></span> su experiencia conmigo. Espero que las autoridades escuchen sus problemas y que se tomen medidas para ayudar a los campesinos mexicanos en esta situación difícil.
+    </p> 
+    
+
+<br>
+<br>
+
+    </div>
+
+<!-- HIDDEN TTS CONTENT (NO TOOLTIPS) -->
+<div id="tts-content" style="display:none">
+    <p>
+        Periodista: Buenos días, don Juan. Agradezco su disposición para hablar conmigo. Quiero conocer su opinión sobre cómo la globalización está afectando a los campesinos en México.
+        </p>
+        <p>
+        Campesino: Buenos días, joven. Claro que sí, estoy dispuesto a compartir mi punto de vista. La verdad es que la globalización nos trae muchos problemas aquí en el campo.
+        </p>
+        <p>
+        Periodista: Puede contar más sobre esas experiencias negativas que tiene la globalización?
+        </p>
+        <p>s
+        Campesino: Por supuesto. Una de las cosas que más nos afecta es la competencia desleal con los productos extranjeros. Antes, éramos capaces de vender nuestra producción en la región, pero ahora me encuentro luchando por conseguir precios justos debido a la importación de productos agrícolas más baratos.
+        </p>
+        <p>
+        Periodista: Entiendo. Y cómo se siente usted y los demás campesinos frente a esta situación?
+        </p>
+        <p>
+        Campesino: Qué piensa usted? Nos sentimos impotentes y frustrados. Yo sé que no puedo competir con los precios de los productos importados, pero tampoco quiero abandonar mis tierras y tradiciones. Necesitamos más apoyo del gobierno para fortalecer nuestra agricultura local y proteger nuestra forma de vida.
+        </p>
+        <p>
+        Periodista: Piensa que hay alguna solución para resolver estos problemas?
+        </p>
+        <p>
+        Campesino: Sinceramente, no sé qué soluciones puede haber. Solo digo que necesitamos cambios urgentes. Necesitamos un gobierno más consciente de nuestras necesidades.
+        </p>
+        <p>
+        Periodista: Entiendo su punto de vista, don Juan. Gracias por compartir su experiencia conmigo. Espero que las autoridades escuchen sus problemas y que se tomen medidas para ayudar a los campesinos mexicanos en esta situación difícil.
+        </p>
+        
+
+<p>
+
+
+    </p>
+<br>
+<br>
+    
+
+</div>
+
+    <script>
+        // Audio cache system
+        const audioCache = new Map();
+        let isPlaying = false;
+        let currentParagraphIndex = 0;
+        let useResponsiveVoice = true;
+        
+        // DOM elements
+        const playBtn = document.getElementById('play-btn');
+        const pauseBtn = document.getElementById('pause-btn');
+        const stopBtn = document.getElementById('stop-btn');
+        const rateInput = document.getElementById('rate');
+        const rateValue = document.getElementById('rate-value');
+        const statusDisplay = document.getElementById('tts-status');
+        const visibleParagraphs = document.querySelectorAll('#visible-content .tts-paragraph');
+        const ttsParagraphs = document.querySelectorAll('#tts-content p');
+
+        // Initialize ResponsiveVoice
+        function initTTS() {
+            if (typeof responsiveVoice === 'undefined') {
+                statusDisplay.textContent = "Error: No se pudo cargar el servicio de voz";
+                useResponsiveVoice = false;
+                return false;
+            }
+            
+            if (!responsiveVoice.voiceSupport('Spanish Latin American Female')) {
+                statusDisplay.textContent = "Voz en español no disponible - usando alternativa";
+                useResponsiveVoice = false;
+                return false;
+            }
+            
+            return true;
+        }
+
+        // Speak with caching
+        function speakWithCache(text, paragraphId) {
+            return new Promise((resolve) => {
+                const cacheKey = `${paragraphId}_${text.substring(0, 30)}`;
+                
+                // Check cache first
+                if (audioCache.has(cacheKey)) {
+                    statusDisplay.textContent = "Reproduciendo (en caché)...";
+                    responsiveVoice.speak(text, "Spanish Latin American Female", {
+                        rate: rateInput.value,
+                        onend: resolve
+                    });
+                    return;
+                }
+                
+                // Not in cache - speak and cache
+                statusDisplay.textContent = "Generando audio...";
+                responsiveVoice.speak(text, "Spanish Latin American Female", {
+                    rate: rateInput.value,
+                    onstart: () => {
+                        audioCache.set(cacheKey, true); // Mark as cached
+                        statusDisplay.textContent = "Reproduciendo...";
+                    },
+                    onend: resolve
+                });
+            });
+        }
+
+        // Browser fallback
+        function speakWithBrowser(text) {
+            return new Promise((resolve) => {
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'es-ES';
+                utterance.rate = rateInput.value;
+                utterance.onend = resolve;
+                speechSynthesis.speak(utterance);
+            });
+        }
+
+        // Main speak function
+        async function speakParagraph(text, paragraphId) {
+            try {
+                if (useResponsiveVoice) {
+                    await speakWithCache(text, paragraphId);
+                } else {
+                    await speakWithBrowser(text);
+                }
+            } catch (error) {
+                console.error("TTS Error:", error);
+                statusDisplay.textContent = "Error de reproducción";
+            }
+        }
+
+        // Play control
+        async function playAll() {
+            if (isPlaying) return;
+            
+            isPlaying = true;
+            statusDisplay.textContent = "Iniciando...";
+            
+            for (let i = currentParagraphIndex; i < ttsParagraphs.length; i++) {
+                if (!isPlaying) break;
+                
+                const text = ttsParagraphs[i].textContent;
+                visibleParagraphs[i].classList.add('sentence-highlight');
+                visibleParagraphs[i].scrollIntoView({ behavior: 'smooth', block: 'center' });
+                
+                await speakParagraph(text, i);
+                
+                visibleParagraphs[i].classList.remove('sentence-highlight');
+                currentParagraphIndex = i + 1;
+            }
+            
+            isPlaying = false;
+            statusDisplay.textContent = "Completado";
+            currentParagraphIndex = 0;
+        }
+
+        // Event listeners
+        playBtn.addEventListener('click', playAll);
+        pauseBtn.addEventListener('click', () => {
+            if (isPlaying) {
+                isPlaying = false;
+                responsiveVoice.cancel();
+                speechSynthesis.cancel();
+                statusDisplay.textContent = "Pausado";
+            }
+        });
+        stopBtn.addEventListener('click', () => {
+            isPlaying = false;
+            responsiveVoice.cancel();
+            speechSynthesis.cancel();
+            removeHighlights();
+            currentParagraphIndex = 0;
+            statusDisplay.textContent = "Detenido";
+        });
+        rateInput.addEventListener('input', () => {
+            rateValue.textContent = rateInput.value;
+        });
+
+        // Paragraph click handlers
+        visibleParagraphs.forEach((para, index) => {
+            para.addEventListener('click', async () => {
+                isPlaying = false;
+                responsiveVoice.cancel();
+                speechSynthesis.cancel();
+                removeHighlights();
+                
+                currentParagraphIndex = index;
+                para.classList.add('sentence-highlight');
+                statusDisplay.textContent = "Preparando...";
+                
+                await speakParagraph(ttsParagraphs[index].textContent, index);
+                
+                para.classList.remove('sentence-highlight');
+                statusDisplay.textContent = "Listo";
+            });
+        });
+
+        // Helper functions
+        function removeHighlights() {
+            visibleParagraphs.forEach(p => p.classList.remove('sentence-highlight'));
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            if (!initTTS()) {
+                statusDisplay.textContent = "Usando voz del navegador";
+            }
+        });
+    </script>
+</body>
+</html>

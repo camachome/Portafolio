@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gramática Regionalismos - Lección 1</title>
+    <script src="https://code.responsivevoice.org/responsivevoice.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Calibri, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        .slide-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+        }
+        
+        .slide {
+            display: none;
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .slide.active {
+            display: block;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        
+        h2 {
+            color: #2980b9;
+            margin: 15px 0 10px 0;
+        }
+        
+        h3 {
+            color: #16a085;
+            margin: 12px 0 8px 0;
+        }
+        
+        .structure-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        
+        .structure-table td {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+        }
+        
+        .structure-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        .irregular-verb {
+            margin-bottom: 8px;
+            padding-left: 10px;
+        }
+        
+        .verb-root {
+            font-weight: bold;
+            color: #c0392b;
+        }
+        
+        .verb-endings {
+            color: #16a085;
+        }
+        
+        .example {
+            margin: 10px 0;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-left: 4px solid #3498db;
+            display: flex;
+            align-items: center;
+        }
+        
+        .speaker-icon {
+            margin-right: 10px;
+            cursor: pointer;
+            color: #3498db;
+            font-size: 1.2em;
+            min-width: 24px;
+        }
+        
+        .navigation {
+            background-color: #2c3e50;
+            color: white;
+            padding: 5px;
+        }
+        
+        .section-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+        
+        .section-btn {
+            background-color: #34495e;
+            color: white;
+            border: none;
+            padding: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            flex: 1;
+            margin: 0 5px;
+            transition: background-color 0.3s;
+        }
+        
+        .section-btn:hover, .section-btn.active {
+            background-color: #3498db;
+        }
+        
+        .nav-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #34495e;
+            border-radius: 5px;
+            padding: 5px;
+        }
+        
+        .nav-btn {
+            background-color: #1a252f;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            margin: 0 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-size: 1em;
+        }
+        
+        .nav-btn:hover:not(:disabled) {
+            background-color: #3498db;
+        }
+        
+        .nav-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+        
+        .slide-counter {
+            font-size: 1.1em;
+            color: white;
+        }
+        
+        .highlight {
+            font-weight: bold;
+            color: #c0392b;
+        }
+        
+        .note {
+            font-style: italic;
+            color: #7f8c8d;
+            margin-top: 10px;
+        }
+        
+        .irregularity-type {
+            margin: 15px 0;
+            padding: 10px;
+            border-left: 3px solid #e74c3c;
+            background-color: #fef5e7;
+        }
+        
+        .verb-conjugation {
+            margin-bottom: 10px;
+        }
+        
+        .verb-example {
+            margin-left: 20px;
+            font-style: italic;
+        }
+        
+        .usage-section {
+            margin: 15px 0;
+            padding: 15px;
+            background-color: #e8f4fc;
+            border-radius: 5px;
+        }
+        
+        .usage-list {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        
+        .usage-list li {
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <!-- ==================== PRETÉRITO PERFECTO (slides 1-5) ==================== -->
+        <!-- Slide 1: Perfecto - Conjugación de haber -->
+        <div class="slide active" id="slide1">
+            <h1>Pretérito Perfecto - Conjugación del verbo haber</h1>
+            <p>El pretérito perfecto se forma con el presente del verbo <span class="highlight">haber</span> + el participio del verbo principal.</p>
+            <table class="structure-table">
+                <tr><td>Yo</td><td>he</td></tr>
+                <tr><td>Tú</td><td>has</td></tr>
+                <tr><td>Él / Ella / Usted</td><td>ha</td></tr>
+                <tr><td>Nosotros / Nosotras</td><td>hemos</td></tr>
+                <tr><td>Vosotros / Vosotras</td><td>habéis</td></tr>
+                <tr><td>Ellos / Ellas / Ustedes</td><td>han</td></tr>
+            </table>
+            <p><span class="highlight">he hablado</span>, <span class="highlight">has comido</span>, <span class="highlight">ha vivido</span>.</p>
+        </div>
+        
+        <!-- Slide 2: Perfecto - Participios irregulares (1) -->
+        <div class="slide" id="slide2">
+            <h1>Pretérito Perfecto - Participios Irregulares (1/2)</h1>
+            <table class="structure-table">
+                <tr><td>Ver</td><td>→</td><td><span class="highlight">visto</span></td></tr>
+                <tr><td>Poner</td><td>→</td><td><span class="highlight">puesto</span></td></tr>
+                <tr><td>Escribir</td><td>→</td><td><span class="highlight">escrito</span></td></tr>
+                <tr><td>Abrir</td><td>→</td><td><span class="highlight">abierto</span></td></tr>
+                <tr><td>Descubrir</td><td>→</td><td><span class="highlight">descubierto</span></td></tr>
+            </table>
+            <div class="example">
+                <span class="speaker-icon" onclick="speakText(this)">🔊</span>
+                <span>Ellos han <span class="highlight">visto</span> la película.</span>
+            </div>
+        </div>
+        
+        <!-- Slide 3: Perfecto - Participios irregulares (2) -->
+        <div class="slide" id="slide3">
+            <h1>Pretérito Perfecto - Participios Irregulares (2/2)</h1>
+            <table class="structure-table">
+                <tr><td>Decir</td><td>→</td><td><span class="highlight">dicho</span></td></tr>
+                <tr><td>Hacer</td><td>→</td><td><span class="highlight">hecho</span></td></tr>
+                <tr><td>Romper</td><td>→</td><td><span class="highlight">roto</span></td></tr>
+                <tr><td>Volver</td><td>→</td><td><span class="highlight">vuelto</span></td></tr>
+                <tr><td>Devolver</td><td>→</td><td><span class="highlight">devuelto</span></td></tr>
+            </table>
+            <div class="example">
+                <span class="speaker-icon" onclick="speakText(this)">🔊</span>
+                <span>¿Ya has <span class="highlight">vuelto</span>?</span>
+            </div>
+        </div>
+        
+        <!-- Slide 4: Perfecto - Usos -->
+        <div class="slide" id="slide4">
+            <h1>Pretérito Perfecto - Usos</h1>
+            <ul class="usage-list">
+                <li><strong>Acciones pasadas con relevancia en el presente</strong></li>
+                <li><strong>Experiencias de vida sin especificar cuándo ocurrieron</strong></li>
+                <li><strong>Acciones ocurridas en un período de tiempo no terminado</strong></li>
+            </ul>
+            <div class="example">
+                <span class="speaker-icon" onclick="speakText(this)">🔊</span>
+                <span>El nacionalismo y el supranacionalismo <span class="highlight">han coexistido</span> a lo largo de la historia.</span>
+            </div>
+            <div class="example">
+                <span class="speaker-icon" onclick="speakText(this)">🔊</span>
+                <span><span class="highlight">He viajado</span> por los países de la EU muchas veces.</span>
+            </div>
+            <div class="example">
+                <span class="speaker-icon" onclick="speakText(this)">🔊</span>
+                <span>Este año los nacionalismos de extrema derecha <span class="highlight">han crecido</span>.</span>
+            </div>
+        </div>
+        
+        <!-- Slide 5: Perfecto - Marcadores temporales -->
+        <div class="slide" id="slide5">
+            <h1>Pretérito Perfecto - Marcadores Temporales</h1>
+            <ul class="usage-list">
+                <li>este / esta / estos / estas + tiempo, días, semanas, meses, años, etc.</li>
+                <li>hoy</li>
+                <li>alguna vez, una vez, dos veces, varias veces, muchas veces, nunca</li>
+                <li>ya</li>
+                <li>aún no, todavía no</li>
+                <li>hasta ahora</li>
+                <li>últimamente</li>
+            </ul>
+            <div class="example">
+                <span class="speaker-icon" onclick="speakText(this)">🔊</span>
+                <span>Esta semana <span class="highlight">hemos trabajado</span> mucho.</span>
+            </div>
+        </div>
+        
+        <!-- ==================== PRETÉRITO IMPERFECTO (slides 6-11) ==================== -->
+        <!-- Slide 6: Imperfecto - Verbos regulares -->
+        <div class="slide" id="slide6">
+            <h1>Pretérito Imperfecto - Verbos Regulares</h1>
+            <h3>Verbos en -ar: impulsar</h3>
+            <table class="structure-table">
+                <tr><td>Yo</td><td>impulsaba</td></tr>
+                <tr><td>Tú</td><td>impulsabas</td></tr>
+                <tr><td>Él/Ella/Usted</td><td>impulsaba</td></tr>
+                <tr><td>Nosotros/as</td><td>impulsábamos</td></tr>
+                <tr><td>Vosotros/as</td><td>impulsabais</td></tr>
+                <tr><td>Ellos/as/Ustedes</td><td>impulsaban</td></tr>
+            </table>
+            <h3>Verbos en -er/-ir: poder / permitir</h3>
+            <table class="structure-table">
+                <tr><td>Yo</td><td>podía / permitía</td></tr>
+                <tr><td>Tú</td><td>podías / permitías</td></tr>
+                <tr><td>Él/Ella/Usted</td><td>podía / permitía</td></tr>
+                <tr><td>Nosotros/as</td><td>podíamos / permitíamos</td></tr>
+                <tr><td>Vosotros/as</td><td>podíais / permitíais</td></tr>
+                <tr><td>Ellos/as/Ustedes</td><td>podían / permitían</td></tr>
+            </table>
+        </div>
+        
+        <!-- Slide 7: Imperfecto - Verbos irregulares -->
+        <div class="slide" id="slide7">
+            <h1>Pretérito Imperfecto - Verbos Irregulares</h1>
+            <p>Solo hay tres verbos irregulares en imperfecto:</p>
+            <table class="structure-table">
+                <tr><th>Persona</th><th>Ir</th><th>Ser</th><th>Ver</th></tr>
+                <tr><td>Yo</td><td>iba</td><td>era</td><td>veía</td></tr>
+                <tr><td>Tú</td><td>ibas</td><td>eras</td><td>veías</td></tr>
+                <tr><td>Él/Ella/Usted</td><td>iba</td><td>era</td><td>veía</td></tr>
+                <tr><td>Nosotros/as</td><td>íbamos</td><td>éramos</td><td>veíamos</td></tr>
+                <tr><td>Vosotros/as</td><td>ibais</td><td>erais</td><td>veíais</td></tr>
+                <tr><td>Ellos/as/Ustedes</td><td>iban</td><td>eran</td><td>veían</td></tr>
+            </table>
+        </div>
+        
+        <!-- Slide 8: Imperfecto - Descripciones -->
+        <div class="slide" id="slide8">
+            <h1>Pretérito Imperfecto - Descripciones en el pasado</h1>
+            <div class="example">
+                <span class="speaker-icon" onclick="speakText(this)">🔊</span>
+                <span>En el pasado el nacionalismo <span class="highlight">era</span> la fuerza dominante en Europa.</span>
+            </div>
+        </div>
+        
+        <!-- Slide 9: Imperfecto - Acciones repetidas -->
+        <div class="slide" id="slide9">
+            <h1>Pretérito Imperfecto - Acciones repetidas</h1>
+            <div class="example">
+                <span class="speaker-icon" onclick="speakText(this)">🔊</span>
+                <span>En aquella época los gobernantes europeos <span class="highlight">repetían</span> en sus actuaciones la necesidad de evitar futuros conflictos.</span>
+            </div>
+        </div>
+        
+        <!-- Slide 10: Imperfecto - Acciones simultáneas -->
+        <div class="slide" id="slide10">
+            <h1>Pretérito Imperfecto - Acciones simultáneas</h1>
+            <div class="example">
+                <span class="speaker-icon" onclick="speakText(this)">🔊</span>
+                <span>Mientras el nacionalismo <span class="highlight">pensaba</span> en la identidad nacional, el supranacionalismo <span class="highlight">apostaba</span> por la cooperación entre los estados.</span>
+            </div>
+            <p>Cuando hay dos acciones en desarrollo, la acción que lleva más tiempo va en imperfecto y la acción que interrumpe en indefinido.</p>
+            <div class="example">
+                <span class="speaker-icon" onclick="speakText(this)">🔊</span>
+                <span>Mientras Europa <span class="highlight">se recuperaba</span> de las consecuencias de la Segunda Guerra Mundial, se <span class="highlight">creó</span> la Comunidad Económica Europea en 1957.</span>
+            </div>
+        </div>
+        
+        <!-- Slide 11: Imperfecto - Marcadores temporales -->
+        <div class="slide" id="slide11">
+            <h1>Pretérito Imperfecto - Marcadores Temporales</h1>
+            <ul class="usage-list">
+                <li>antes</li>
+                <li>en aquella época, aquellos años</li>
+                <li>cada día</li>
+                <li>(casi) todos los días / meses / años, etc.</li>
+                <li>(casi) siempre</li>
+                <li>de pequeño / de joven, etc.</li>
+                <li>normalmente</li>
+                <li>mientras</li>
+            </ul>
+        </div>
+        
+        <!-- ==================== PRETÉRITO INDEFINIDO (slides 12-23) ==================== -->
+        <!-- Slide 12: Indefinido - Verbos regulares -->
+        <div class="slide" id="slide12">
+            <h1>Pretérito Indefinido - Verbos Regulares</h1>
+            <h3>Verbos en -ar: evolucionar</h3>
+            <table class="structure-table">
+                <tr><td>Yo</td><td>evolucioné</td></tr>
+                <tr><td>Tú</td><td>evolucionaste</td></tr>
+                <tr><td>Él/Ella/Usted</td><td>evolucionó</td></tr>
+                <tr><td>Nosotros/as</td><td>evolucionamos</td></tr>
+                <tr><td>Vosotros/as</td><td>evolucionasteis</td></tr>
+                <tr><td>Ellos/as/Ustedes</td><td>evolucionaron</td></tr>
+            </table>
+            <h3>Verbos en -er: establecer</h3>
+            <table class="structure-table">
+                <tr><td>Yo</td><td>establecí</td></tr>
+                <tr><td>Tú</td><td>estableciste</td></tr>
+                <tr><td>Él/Ella/Usted</td><td>estableció</td></tr>
+                <tr><td>Nosotros/as</td><td>establecimos</td></tr>
+                <tr><td>Vosotros/as</td><td>establecisteis</td></tr>
+                <tr><td>Ellos/as/Ustedes</td><td>establecieron</td></tr>
+            </table>
+            <h3>Verbos en -ir: permitir</h3>
+            <table class="structure-table">
+                <tr><td>Yo</td><td>permití</td></tr>
+                <tr><td>Tú</td><td>permitiste</td></tr>
+                <tr><td>Él/Ella/Usted</td><td>permitió</td></tr>
+                <tr><td>Nosotros/as</td><td>permitimos</td></tr>
+                <tr><td>Vosotros/as</td><td>permitisteis</td></tr>
+                <tr><td>Ellos/as/Ustedes</td><td>permitieron</td></tr>
+            </table>
+            <p class="note">Los acentos son muy importantes, pues las formas en -ar del indefinido se pueden confundir con las del presente.</p>
+        </div>
+        
+        <!-- Slide 13: Indefinido - Irregularidades tipo 1 (e→i) -->
+        <div class="slide" id="slide13">
+            <h1>Pretérito Indefinido - Irregularidades 1 (e→i)</h1>
+            <p>Verbos en -ir que cambian e→i en 3ª persona singular y plural.</p>
+            <table class="structure-table">
+                <tr><th>Persona</th><th>Pedir</th><th>Seguir</th></tr>
+                <tr><td>Yo</td><td>pedí</td><td>seguí</td></tr>
+                <tr><td>Tú</td><td>pediste</td><td>seguiste</td></tr>
+                <tr><td>Él/Ella/Usted</td><td><span class="highlight">pidió</span></td><td><span class="highlight">siguió</span></td></tr>
+                <tr><td>Nosotros/as</td><td>pedimos</td><td>seguimos</td></tr>
+                <tr><td>Vosotros/as</td><td>pedisteis</td><td>seguisteis</td></tr>
+                <tr><td>Ellos/as/Ustedes</td><td><span class="highlight">pidieron</span></td><td><span class="highlight">siguieron</span></td></tr>
+            </table>
+            <p>Otros verbos: divertirse, preferir, repetir, sentir, corregir, despedir, elegir, impedir, medir, reírse, servir.</p>
+        </div>
+        
+        <!-- Slide 14: Indefinido - Irregularidades tipo 2 (o→u) -->
+        <div class="slide" id="slide14">
+            <h1>Pretérito Indefinido - Irregularidades 2 (o→u)</h1>
+            <p>Verbos en -ir que cambian o→u en 3ª persona singular y plural.</p>
+            <table class="structure-table">
+                <tr><th>Persona</th><th>Dormir</th><th>Morir</th></tr>
+                <tr><td>Yo</td><td>dormí</td><td>morí</td></tr>
+                <tr><td>Tú</td><td>dormiste</td><td>moriste</td></tr>
+                <tr><td>Él/Ella/Usted</td><td><span class="highlight">durmió</span></td><td><span class="highlight">murió</span></td></tr>
+                <tr><td>Nosotros/as</td><td>dormimos</td><td>morimos</td></tr>
+                <tr><td>Vosotros/as</td><td>dormisteis</td><td>moristeis</td></tr>
+                <tr><td>Ellos/as/Ustedes</td><td><span class="highlight">durmieron</span></td><td><span class="highlight">murieron</span></td></tr>
+            </table>
+        </div>
+        
+        <!-- Slide 15: Indefinido - Irregularidades tipo 3 (i→y) -->
+        <div class="slide" id="slide15">
+            <h1>Pretérito Indefinido - Irregularidades 3 (i→y)</h1>
+            <p>Verbos que cambian i→y en 3ª persona singular y plural.</p>
+            <table class="structure-table">
+                <tr><th>Persona</th><th>Creer</th><th>Influir</th></tr>
+                <tr><td>Yo</td><td>creí</td><td>influí</td></tr>
+                <tr><td>Tú</td><td>creíste</td><td>influiste</td></tr>
+                <tr><td>Él/Ella/Usted</td><td><span class="highlight">creyó</span></td><td><span class="highlight">influyó</span></td></tr>
+                <tr><td>Nosotros/as</td><td>creímos</td><td>influimos</td></tr>
+                <tr><td>Vosotros/as</td><td>creísteis</td><td>influisteis</td></tr>
+                <tr><td>Ellos/as/Ustedes</td><td><span class="highlight">creyeron</span></td><td><span class="highlight">influyeron</span></td></tr>
+            </table>
+            <p>Otros: leer (leyó), oír (oyó), caer (cayó) y verbos en -uir (construir, destruir, incluir, constituir, intuir).</p>
+        </div>
+        
+        <!-- Slide 16: Indefinido - Irregularidades tipo 4 (raíz "u") -->
+        <div class="slide" id="slide16">
+            <h1>Pretérito Indefinido - Irregularidades 4 (raíz "u")</h1>
+            <table class="structure-table">
+                <tr><th>Persona</th><th>Estar</th><th>Poder</th><th>Saber</th></tr>
+                <tr><td>Yo</td><td><span class="highlight">estuve</span></td><td><span class="highlight">pude</span></td><td><span class="highlight">supe</span></td></tr>
+                <tr><td>Tú</td><td>estuviste</td><td>pudiste</td><td>supiste</td></tr>
+                <tr><td>Él/Ella/Usted</td><td><span class="highlight">estuvo</span></td><td><span class="highlight">pudo</span></td><td><span class="highlight">supo</span></td></tr>
+                <tr><td>Nosotros/as</td><td>estuvimos</td><td>pudimos</td><td>supimos</td></tr>
+                <tr><td>Vosotros/as</td><td>estuvisteis</td><td>pudisteis</td><td>supisteis</td></tr>
+                <tr><td>Ellos/as/Ustedes</td><td><span class="highlight">estuvieron</span></td><td><span class="highlight">pudieron</span></td><td><span class="highlight">supieron</span></td></tr>
+            </table>
+            <p>Otros: tener (tuve), caber (cupe), andar (anduve), poner (puse), suponer (supuse), haber (hubo).</p>
+        </div>
+        
+        <!-- Slide 17: Indefinido - Irregularidades tipo 5 (raíz "i") -->
+        <div class="slide" id="slide17">
+            <h1>Pretérito Indefinido - Irregularidades 5 (raíz "i")</h1>
+            <table class="structure-table">
+                <tr><th>Persona</th><th>Venir</th><th>Querer</th><th>Hacer</th></tr>
+                <tr><td>Yo</td><td><span class="highlight">vine</span></td><td><span class="highlight">quise</span></td><td><span class="highlight">hice</span></td></tr>
+                <tr><td>Tú</td><td>viniste</td><td>quisiste</td><td>hiciste</td></tr>
+                <tr><td>Él/Ella/Usted</td><td><span class="highlight">vino</span></td><td><span class="highlight">quiso</span></td><td><span class="highlight">hizo</span></td></tr>
+                <tr><td>Nosotros/as</td><td>vinimos</td><td>quisimos</td><td>hicimos</td></tr>
+                <tr><td>Vosotros/as</td><td>vinisteis</td><td>quisisteis</td><td>hicisteis</td></tr>
+                <tr><td>Ellos/as/Ustedes</td><td><span class="highlight">vinieron</span></td><td><span class="highlight">quisieron</span></td><td><span class="highlight">hicieron</span></td></tr>
+            </table>
+            <p class="note">¡Atención! En la persona él/ella/usted “hizo” se escribe con “z” para conservar la pronunciación.</p>
+        </div>
+        
+        <!-- Slide 18: Indefinido - Irregularidades tipo 6 (raíz "j") -->
+        <div class="slide" id="slide18">
+            <h1>Pretérito Indefinido - Irregularidades 6 (raíz "j")</h1>
+            <p>Verbos con raíz en "j" (decir, traer, y terminados en -ducir).</p>
+            <table class="structure-table">
+                <tr><th>Persona</th><th>Reducir</th><th>Traer</th><th>Decir</th></tr>
+                <tr><td>Yo</td><td><span class="highlight">reduje</span></td><td><span class="highlight">traje</span></td><td><span class="highlight">dije</span></td></tr>
+                <tr><td>Tú</td><td>redujiste</td><td>trajiste</td><td>dijiste</td></tr>
+                <tr><td>Él/Ella/Usted</td><td><span class="highlight">redujo</span></td><td><span class="highlight">trajo</span></td><td><span class="highlight">dijo</span></td></tr>
+                <tr><td>Nosotros/as</td><td>redujimos</td><td>trajimos</td><td>dijimos</td></tr>
+                <tr><td>Vosotros/as</td><td>redujisteis</td><td>trajisteis</td><td>dijisteis</td></tr>
+                <tr><td>Ellos/as/Ustedes</td><td><span class="highlight">redujeron</span></td><td><span class="highlight">trajeron</span></td><td><span class="highlight">dijeron</span></td></tr>
+            </table>
+            <p class="note">¡Atención! La persona ellos/ellas/ustedes elimina la vocal “i”: -ieron pasa a –eron.</p>
+            <p>Otros: sustraer, conducir, producir, deducir, traducir.</p>
+        </div>
+        
+        <!-- Slide 19: Indefinido - Irregularidades tipo 7 (ortográfico -zar/-car) -->
+        <div class="slide" id="slide19">
+            <h1>Pretérito Indefinido - Irregularidades 7 (ortográfico)</h1>
+            <p>Verbos en -zar: cambian z→c en 1ª persona singular.</p>
+            <p>Verbos en -car: cambian c→qu en 1ª persona singular.</p>
+            <table class="structure-table">
+                <tr><th>Persona</th><th>Alcanzar</th><th>Colocar</th></tr>
+                <tr><td>Yo</td><td><span class="highlight">alcancé</span></td><td><span class="highlight">coloqué</span></td></tr>
+                <tr><td>Tú</td><td>alcanzaste</td><td>colocaste</td></tr>
+                <tr><td>Él/Ella/Usted</td><td>alcanzó</td><td>colocó</td></tr>
+                <tr><td>Nosotros/as</td><td>alcanzamos</td><td>colocamos</td></tr>
+                <tr><td>Vosotros/as</td><td>alcanzasteis</td><td>colocasteis</td></tr>
+                <tr><td>Ellos/as/Ustedes</td><td>alcanzaron</td><td>colocaron</td></tr>
+            </table>
+            <p>Otros: comenzar (comencé), realizar (realicé), comunicar (comuniqué), explicar (expliqué).</p>
+        </div>
+        
+        <!-- Slide 20: Indefinido - Irregularidades tipo 8 (totalmente irregulares) -->
+        <div class="slide" id="slide20">
+            <h1>Pretérito Indefinido - Irregularidades 8 (totalmente irregulares)</h1>
+            <table class="structure-table">
+                <tr><th>Persona</th><th>Ser / Ir</th><th>Dar</th></tr>
+                <tr><td>Yo</td><td><span class="highlight">fui</span></td><td><span class="highlight">di</span></td></tr>
+                <tr><td>Tú</td><td>fuiste</td><td>diste</td></tr>
+                <tr><td>Él/Ella/Usted</td><td><span class="highlight">fue</span></td><td><span class="highlight">dio</span></td></tr>
+                <tr><td>Nosotros/as</td><td>fuimos</td><td>dimos</td></tr>
+                <tr><td>Vosotros/as</td><td>fuisteis</td><td>disteis</td></tr>
+                <tr><td>Ellos/as/Ustedes</td><td><span class="highlight">fueron</span></td><td><span class="highlight">dieron</span></td></tr>
+            </table>
+            <p class="note">¡Atención! Los verbos “ser” e “ir” tienen la misma conjugación en indefinido.</p>
+        </div>
+        
+        <!-- Slide 21: Indefinido - Usos 1 -->
+        <div class="slide" id="slide21">
+            <h1>Pretérito Indefinido - Usos (1/2)</h1>
+            <ul class="usage-list">
+                <li><strong>Acciones puntuales en el pasado</strong></li>
+                <li><strong>Serie de eventos en el pasado</strong></li>
+            </ul>
+            <div class="example">
+                <span class="speaker-icon" onclick="speakText(this)">🔊</span>
+                <span>En la década de 1930, el nacionalismo extremo <span class="highlight">desembocó</span> en el ascenso de regímenes totalitarios.</span>
+            </div>
+            <div class="example">
+                <span class="speaker-icon" onclick="speakText(this)">🔊</span>
+                <span>La Comunidad Económica Europea <span class="highlight">creó</span> y <span class="highlight">desarrolló</span> cooperaciones.</span>
+            </div>
+        </div>
+        
+        <!-- Slide 22: Indefinido - Usos 2 -->
+        <div class="slide" id="slide22">
+            <h1>Pretérito Indefinido - Usos (2/2)</h1>
+            <ul class="usage-list">
+                <li><strong>Acciones que interrumpen a otra en desarrollo</strong></li>
+                <li><strong>Acciones con un límite temporal definido</strong></li>
+            </ul>
+            <div class="example">
+                <span class="speaker-icon" onclick="speakText(this)">🔊</span>
+                <span>Los nacionalismos avanzaban cuando <span class="highlight">apareció</span> la Unión Europea.</span>
+            </div>
+            <div class="example">
+                <span class="speaker-icon" onclick="speakText(this)">🔊</span>
+                <span>Durante décadas la cooperación entre Estados no <span class="highlight">fue</span> prioritaria.</span>
+            </div>
+        </div>
+        
+        <!-- Slide 23: Indefinido - Marcadores temporales -->
+        <div class="slide" id="slide23">
+            <h1>Pretérito Indefinido - Marcadores Temporales</h1>
+            <ul class="usage-list">
+                <li>Anoche / Ayer / Anteayer</li>
+                <li>El otro día</li>
+                <li>El lunes pasado / el martes pasado</li>
+                <li>La semana pasada / el mes pasado / el año pasado</li>
+                <li>El 1 de enero / En el año 1988</li>
+                <li>Aquel día / En aquel momento</li>
+                <li>hace un rato / hace poco tiempo / hace 2 horas</li>
+            </ul>
+            <div class="example">
+                <span class="speaker-icon" onclick="speakText(this)">🔊</span>
+                <span>Ayer <span class="highlight">llegué</span> tarde.</span>
+            </div>
+        </div>
+        
+        <!-- ==================== PLUSCUAMPERFECTO (slides 24-27) ==================== -->
+        <!-- Slide 24: Pluscuamperfecto - Estructura -->
+        <div class="slide" id="slide24">
+            <h1>Pluscuamperfecto - Estructura</h1>
+            <p>Se forma con el verbo auxiliar <span class="highlight">haber en imperfecto</span> + el participio del verbo principal.</p>
+            <table class="structure-table">
+                <tr><th>Persona</th><th>Haber (imperfecto)</th><th>Participio (ej. hablar)</th></tr>
+                <tr><td>Yo</td><td>había</td><td>hablado</td></tr>
+                <tr><td>Tú</td><td>habías</td><td>hablado</td></tr>
+                <tr><td>Él/Ella/Usted</td><td>había</td><td>hablado</td></tr>
+                <tr><td>Nosotros/as</td><td>habíamos</td><td>hablado</td></tr>
+                <tr><td>Vosotros/as</td><td>habíais</td><td>hablado</td></tr>
+                <tr><td>Ellos/as/Ustedes</td><td>habían</td><td>hablado</td></tr>
+            </table>
+        </div>
+        
+        <!-- Slide 25: Pluscuamperfecto - Usos 1 -->
+        <div class="slide" id="slide25">
+            <h1>Pluscuamperfecto - Acción anterior a otra en el pasado</h1>
+            <div class="example">
+                <span class="speaker-icon" onclick="speakText(this)">🔊</span>
+                <span>Cuando María llegó a la estación, el tren <span class="highlight">ya había partido</span>.</span>
+            </div>
+            <p>(La acción de "partir" ocurrió antes que la llegada de María.)</p>
+        </div>
+        
+        <!-- Slide 26: Pluscuamperfecto - Usos 2 -->
+        <div class="slide" id="slide26">
+            <h1>Pluscuamperfecto - Explicar causas o antecedentes</h1>
+            <div class="example">
+                <span class="speaker-icon" onclick="speakText(this)">🔊</span>
+                <span>No quise ver la película porque ya la <span class="highlight">había visto</span> antes.</span>
+            </div>
+        </div>
+        
+        <!-- Slide 27: Pluscuamperfecto - Usos 3 -->
+        <div class="slide" id="slide27">
+            <h1>Pluscuamperfecto - Contar hechos o experiencias previas</h1>
+            <div class="example">
+                <span class="speaker-icon" onclick="speakText(this)">🔊</span>
+                <span>Juan me contó que nunca <span class="highlight">había viajado</span> al extranjero.</span>
+            </div>
+        </div>
+
+            <!-- ==================== DIFERENCIAS (slides 28-29) ==================== -->
+        <!-- Slide 28: Diferencias - Tabla comparativa -->
+        <div class="slide" id="slide28">
+            <h1>Diferencias entre los Tiempos Verbales</h1>
+            <table class="structure-table">
+                <tr>
+                    <th>Tiempo Verbal</th>
+                    <th>Usos principales</th>
+                    <th>Marcadores Temporales</th>
+                </tr>
+                <tr>
+                    <td><strong>Pretérito Perfecto</strong><br>(he hablado)</td>
+                    <td>Se usa para hablar de experiencias pasadas que tienen relación con el presente o cuando el período de tiempo no ha terminado.</td>
+                    <td>hoy, esta semana, este mes, nunca, este año, últimamente, alguna vez, todavía no, ya</td>
+                </tr>
+                <tr>
+                    <td><strong>Pretérito Imperfecto</strong><br>(hablaba)</td>
+                    <td>Se usa para describir situaciones o estados en el pasado, acciones habituales o repetitivas, y para narraciones descriptivas.</td>
+                    <td>Antes, cuando era niño, mientras, en aquel entonces, en esa época, siempre, todos los días, cada día, frecuentemente</td>
+                </tr>
+                <tr>
+                    <td><strong>Pretérito Indefinido</strong><br>(hablé)</td>
+                    <td>Se usa para acciones concretas, únicas y terminadas en un momento específico del pasado. También para eventos históricos o secuencias de acciones.</td>
+                    <td>Ayer, anteayer, el año pasado, en 2010, de repente, hace tres días, en ese momento</td>
+                </tr>
+                <tr>
+                    <td><strong>Pluscuamperfecto</strong><br>(había hablado)</td>
+                    <td>Se usa para expresar una acción anterior a otra ya pasada. Indica un pasado más lejano.</td>
+                    <td>Antes, ya, todavía, cuando, después, nunca</td>
+                </tr>
+            </table>
+        </div>
+        
+        <!-- Slide 29: Diferencias - Resumen clave -->
+        <div class="slide" id="slide29">
+            <h1>Resumen de Diferencias Clave</h1>
+            <div class="usage-section">
+                <h3>Relación con el presente:</h3>
+                <ul class="usage-list">
+                    <li><strong>Pretérito Perfecto:</strong> Se vincula con el presente.</li>
+                    <li><strong>Los demás tiempos:</strong> No tienen relación con el presente.</li>
+                </ul>
+                <h3>Duración y repetición:</h3>
+                <ul class="usage-list">
+                    <li><strong>Pretérito Imperfecto:</strong> Acciones habituales o descripciones.</li>
+                    <li><strong>Pretérito Indefinido:</strong> Acciones puntuales y terminadas.</li>
+                </ul>
+                <h3>Orden en la línea temporal:</h3>
+                <ul class="usage-list">
+                    <li><strong>Pretérito Indefinido:</strong> Acción en un momento específico del pasado.</li>
+                    <li><strong>Pretérito Pluscuamperfecto:</strong> Acción anterior a otra acción pasada.</li>
+                </ul>
+            </div>
+            <div class="example">
+                <span class="speaker-icon" onclick="speakText(this)">🔊</span>
+                <span>Ya <span class="highlight">había comido</span> cuando <span class="highlight">llegaron</span> (pluscuamperfecto anterior a indefinido).</span>
+            </div>
+        </div>
+
+    </div>
+
+
+
+    <!-- Navigation -->
+    <div class="navigation">
+        <div class="section-buttons">
+            <button class="section-btn active" id="section1" onclick="goToSection(1)">Pretérito Perfecto</button>
+            <button class="section-btn" id="section2" onclick="goToSection(2)">Pretérito Imperfecto</button>
+            <button class="section-btn" id="section3" onclick="goToSection(3)">Pretérito Indefinido</button>
+            <button class="section-btn" id="section4" onclick="goToSection(4)">Pluscuamperfecto</button>
+            <button class="section-btn" id="section5" onclick="goToSection(5)">Diferencias</button>
+        </div>
+        <div class="nav-controls">
+            <button class="nav-btn" id="prevBtn" onclick="previousSlide()" disabled>❮ Anterior</button>
+            <span class="slide-counter" id="slideCounter">1 de 5</span>
+            <button class="nav-btn" id="nextBtn" onclick="nextSlide()">Siguiente ❯</button>
+        </div>
+    </div>
+
+    <script>
+        // Configuration: sections with start and end slide numbers
+        const sections = [
+            { name: "Pretérito Perfecto", start: 1, end: 5 },
+            { name: "Pretérito Imperfecto", start: 6, end: 11 },
+            { name: "Pretérito Indefinido", start: 12, end: 23 },
+            { name: "Pluscuamperfecto", start: 24, end: 27 },
+            { name: "Diferencias", start: 28, end: 29 }
+        ];
+
+        let currentSlide = 1; // currently active slide
+
+        // Initialize: show slide 1, set counter, set active section
+        window.onload = function() {
+            showSlide(1);
+            // Check responsive voice
+            if (typeof responsiveVoice === 'undefined') {
+                console.log("ResponsiveVoice not loaded");
+            } else {
+                console.log("ResponsiveVoice loaded");
+            }
+            // Force speaker icons visible
+            document.querySelectorAll('.speaker-icon').forEach(icon => icon.style.display = 'inline-block');
+        };
+
+        function showSlide(slideNumber) {
+            // Hide all slides
+            document.querySelectorAll('.slide').forEach(slide => slide.classList.remove('active'));
+            // Show selected slide
+            const slideEl = document.getElementById(`slide${slideNumber}`);
+            if (slideEl) slideEl.classList.add('active');
+            else return;
+            
+            currentSlide = slideNumber;
+            
+            // Update counter
+            const section = getSectionFromSlide(slideNumber);
+            const totalInSection = section.end - section.start + 1;
+            const slideIndexInSection = slideNumber - section.start + 1;
+            document.getElementById('slideCounter').textContent = `${slideIndexInSection} de ${totalInSection}`;
+            
+            // Update navigation buttons
+            updateNavButtons(section);
+            
+            // Update active section button
+            updateActiveSectionButton(section);
+        }
+
+        function getSectionFromSlide(slide) {
+            return sections.find(s => slide >= s.start && slide <= s.end) || sections[0];
+        }
+
+        function updateNavButtons(section) {
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            prevBtn.disabled = (currentSlide <= section.start);
+            nextBtn.disabled = (currentSlide >= section.end);
+        }
+
+        function updateActiveSectionButton(section) {
+            // Remove active class from all section buttons
+            document.querySelectorAll('.section-btn').forEach(btn => btn.classList.remove('active'));
+            // Find button index based on section name
+            const index = sections.findIndex(s => s.name === section.name);
+            if (index !== -1) {
+                document.getElementById(`section${index+1}`).classList.add('active');
+            }
+        }
+
+        function goToSection(sectionIndex) {
+            const section = sections[sectionIndex-1];
+            if (section) {
+                showSlide(section.start);
+            }
+        }
+
+        function previousSlide() {
+            const section = getSectionFromSlide(currentSlide);
+            if (currentSlide > section.start) {
+                showSlide(currentSlide - 1);
+            }
+        }
+
+        function nextSlide() {
+            const section = getSectionFromSlide(currentSlide);
+            if (currentSlide < section.end) {
+                showSlide(currentSlide + 1);
+            }
+        }
+
+        // Text-to-speech function (same as before)
+        function speakText(element) {
+            let exampleText = element.parentElement.textContent;
+            exampleText = exampleText.replace(/🔊/g, '').trim();
+            
+            if (typeof responsiveVoice !== 'undefined' && responsiveVoice.voiceSupport) {
+                responsiveVoice.speak(exampleText, "Spanish Latin American Female", {
+                    rate: 0.9,
+                    pitch: 1,
+                    volume: 1
+                });
+            } else {
+                if ('speechSynthesis' in window) {
+                    const utterance = new SpeechSynthesisUtterance(exampleText);
+                    utterance.lang = 'es-ES';
+                    speechSynthesis.speak(utterance);
+                }
+            }
+        }
+    </script>
+</body>
+</html>
