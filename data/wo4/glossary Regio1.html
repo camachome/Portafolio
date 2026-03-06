@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Glosario Interactivo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+	    font-size: 30px;
+        }
+        .alphabet-filter {
+            background: #f0f0f0;
+            padding: 10px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 5px;
+            font-size: 30px;
+        }
+        .alphabet-btn {
+            padding: 5px 10px;
+            cursor: pointer;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            font-size: 30px;
+        }
+        .alphabet-btn:hover {
+            background: #2980b9;
+        }
+        .alphabet-btn.active {
+            background: #2c3e50;
+        }
+        .alphabet-btn:disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+        .glossary-container {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+        .terms-sidebar {
+            width: 30%; //250px
+            background: #f8f8f8;
+            overflow-y: auto;
+            padding: 10px;
+            border-right: 1px solid #ddd;
+        }
+        .term-item {
+            padding: 8px;
+            cursor: pointer;
+            border-bottom: 1px solid #eee;
+        }
+        .term-item:hover {
+            background: #e0e0e0;
+        }
+        .term-item.active {
+            background: #3498db;
+            color: white;
+        }
+        .definition-panel {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        .definition-title {
+            font-size: 40px;
+	    color: #0000FF;
+            font-style: italic;
+            font-weight: bold;
+            //color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        .definition-content {
+            font-size: 35px;
+            line-height: 1.6;
+        }
+        .no-term-selected {
+            color: #7f8c8d;
+            font-style: italic;
+        }
+
+	.speaker-icon {
+    	margin-left: 10px;
+    	cursor: pointer;
+    	opacity: 0.7;
+    	transition: opacity 0.2s;
+	}
+	.speaker-icon:hover {
+    	opacity: 1;
+	}
+
+    </style>
+</head>
+<body>
+    <div class="alphabet-filter" id="alphabet-filter">
+        <!-- Spanish alphabet -->
+        <button class="alphabet-btn" data-letter="ALL">TODAS</button>
+        <button class="alphabet-btn" data-letter="A">A</button>
+        <button class="alphabet-btn" data-letter="B">B</button>
+        <button class="alphabet-btn" data-letter="C">C</button>
+        <button class="alphabet-btn" data-letter="D">D</button>
+        <button class="alphabet-btn" data-letter="E">E</button>
+        <button class="alphabet-btn" data-letter="F">F</button>
+        <button class="alphabet-btn" data-letter="G">G</button>
+        <button class="alphabet-btn" data-letter="H">H</button>
+        <button class="alphabet-btn" data-letter="I">I</button>
+        <button class="alphabet-btn" data-letter="J">J</button>
+        <button class="alphabet-btn" data-letter="K">K</button>
+        <button class="alphabet-btn" data-letter="L">L</button>
+        <button class="alphabet-btn" data-letter="M">M</button>
+        <button class="alphabet-btn" data-letter="N">N</button>
+        <button class="alphabet-btn" data-letter="Ñ">Ñ</button>
+        <button class="alphabet-btn" data-letter="O">O</button>
+        <button class="alphabet-btn" data-letter="P">P</button>
+        <button class="alphabet-btn" data-letter="Q">Q</button>
+        <button class="alphabet-btn" data-letter="R">R</button>
+        <button class="alphabet-btn" data-letter="S">S</button>
+        <button class="alphabet-btn" data-letter="T">T</button>
+        <button class="alphabet-btn" data-letter="U">U</button>
+        <button class="alphabet-btn" data-letter="V">V</button>
+        <button class="alphabet-btn" data-letter="W">W</button>
+        <button class="alphabet-btn" data-letter="X">X</button>
+        <button class="alphabet-btn" data-letter="Y">Y</button>
+        <button class="alphabet-btn" data-letter="Z">Z</button>
+    </div>
+
+    <div class="glossary-container">
+        <div class="terms-sidebar" id="terms-sidebar">
+            <!-- Terms will be dynamically inserted here -->
+        </div>
+        <div class="definition-panel" id="definition-panel">
+            <div class="no-term-selected">Seleccione un término para ver su definición.</div>
+        </div>
+    </div>
+
+    <script>
+        // Glossary data (replace with your full dataset)
+        const glossaryData = [
+        { term: "A lo largo de", definition: "Que tiene mucha longitud, extenso en el tiempo" },
+            { term: "Abandonar ", definition: "Dejar, retirarse" },
+            { term: "Afectar", definition: "Influir" },
+            { term: "Ambicioso/ a", definition: "Adjetivo. Codicioso, plan que desea mucho éxito" },
+            { term: "Buscaban", definition: "Imperfecto del verbo buscar. Verbo regular 3ª persona plural. Hacer algo para encontrar o conseguir algo" },
+            { term: "Claro/a", definition: "Adjetivo. Nítido, preciso, definido" },
+            { term: "Compartido /a", definition: "Adjetivo, que se puede compartir, que se puede dividir, repartir" },
+            { term: "Compartir", definition: "Tener en común, en general" },
+            { term: "Comprendieron", definition: "Indefinido del verbo comprender. Verbo regular. 3ª persona plural. Entender, darse cuenta" },
+            { term: "Común", definition: "Colectivo, general" },
+            { term: "Convertirse", definition: "Proceso de cambiar, transformar o modificar" },
+            { term: "Convertirse", definition: "transformarse" },
+            { term: "Crearon", definition: "Indefinido del verbo crear. 3ª persona plural. Fundar, establecer" },
+            { term: "Creían", definition: "Imperfecto del verbo creer. Verbo regular 3ª persona plural. Pensar, opinar, tener fe " },
+            { term: "Debilitaban", definition: "Imperfecto del verbo debilitar. Verbo regular 3ª persona plural. Disminuir la fuerza" },
+            { term: "Decidió", definition: "Indefinido del verbo decidir. 3ª persona singular. Determinar, resolver" },
+            { term: "Definirse", definition: "Tomar una posición" },
+            { term: "Desembocó", definition: "Indefinido del verbo desembocar. 3ª persona singular. Concluir, terminar" },
+            { term: "Devastado/a", definition: "Adjetivo. Destruido" },
+            { term: "Devastador /a", definition: "Adjetivo. Destructor, catastrófico" },
+            { term: "El área", definition: "Ámbito, lugar" },
+            { term: "El ascenso", definition: "Superación, mejora de posición, crecimiento" },
+            { term: "El auge", definition: "Momento de mayor intensidad, apogeo, cúspide" },
+            { term: "El beneficio", definition: "La ganancia, el usufructo" },
+            { term: "El supranacionalismo", definition: "El supranacionalismo es una unión internacional donde los estados miembros delegan parte de su soberanía para perseguir objetivos compartidos" },
+            { term: "En contraste", definition: "Al contrario, a diferencia de" },
+            { term: "Era", definition: "Imperfecto del verbo ser. Verbo irregular 3ª persona singular. Existir" },
+            { term: "Establecían", definition: "Imperfecto del verbo establecer. Verbo regular 3ª persona plural. Fundar, definir, crear, constituir" },
+            { term: "Evitar", definition: "Impedir que algo suceda o tenga lugar" },
+            { term: "Evolucionó", definition: "Indefinido del verbo evolucionar. 3ª persona singular. Tener un desarrollo positivo" },
+            { term: "Expansionista", definition: "Partidario de agrandar, ampliar, extender" },
+            { term: "Favorecer", definition: "Beneficiar, apoyar" },
+            { term: "Fortalecer", definition: "Revitalizar, mejorar, hacer más fuerte" },
+            { term: "Generaban", definition: "Imperfecto del verbo generar. Verbo regular 3ª persona plural. Producir, crear" },
+            { term: "Generar", definition: "Desarrollar" },
+            { term: "Ha causado", definition: "Perfecto del verbo causar. Participio regular 3ª persona singular. Ocasionar, provocar algo" },
+            { term: "Ha encontrado", definition: "Perfecto del verbo encontrar. Participio regular 3ª persona singular. Tener, enfrentarse" },
+            { term: "Ha llevado", definition: "Perfecto del verbo llevar. Participio regular 3ª persona singular. Conducir, transportar, traer" },
+            { term: "Ha llevado", definition: "Perfecto del verbo llevar. Participio regular 3ª persona singular. Conducir, dirigir" },
+            { term: "Ha logrado", definition: "Perfecto del verbo lograr. Participio regular 3ª persona singular. Conseguir, alcanzar, llegar a una meta" },
+            { term: "Ha predominado", definition: "Perfecto del verbo predominar. Participio regular 3ª persona singular. Sobresalir, destacar, dominar, aventajar" },
+            { term: "Ha promovido", definition: "Perfecto del verbo promover. Participio regular 3ª persona singular. Impulsar, desarrollar" },
+            { term: "Ha promovido", definition: "Perfecto del verbo promover. Participio regular 3ª persona singular. Impulsar, fomentar" },
+            { term: "Ha representado", definition: "Perfecto del verbo representar. Participio regular 3ª persona singular. Significar, ser." },
+            { term: "Ha servido", definition: "Perfecto del verbo servir. Participio regular 3ª persona singular. Valer, ser de utilidad" },
+            { term: "Ha sido", definition: "Perfecto del verbo ser. Participio regular 3ª persona singular. Existir" },
+            { term: "Ha surgido", definition: "Perfecto del verbo surgir. Participio regular 3ª persona singular. Aparecer, nacer" },
+            { term: "Ha tenido ", definition: "Perfecto del verbo tener. Participio regular 3ª persona singular. Poseer" },
+            { term: "Había quedado", definition: "Pluscuamperfecto del verbo quedar. Participio regular 3ª persona singular. Acabar, terminar" },
+            { term: "Había sentado", definition: "Pluscuamperfecto del verbo sentar. Participio regular 3ª persona singular. Establecer, definir" },
+            { term: "Habían cedido", definition: "Pluscuamperfecto del verbo ceder. Participio regular 3ª persona plural. Entregar, dar, transferir" },
+            { term: "Habían establecido", definition: "Pluscuamperfecto del verbo establecer. Participio regular 3ª persona plural. Sentar, definir" },
+            { term: "Han argumentado", definition: "Perfecto del verbo argumentar. Participio regular 3ª persona plural. Exponer, aclarar, demostrar" },
+            { term: "Han cedido", definition: "Perfecto del verbo ceder. Participio regular 3ª persona plural. Entregar, dar, transferir" },
+            { term: "Han coexistido", definition: "Perfecto del verbo coexistir. Participio regular 3ª persona plural. Convivir, coincidir" },
+            { term: "Han evolucionado ", definition: "Perfecto del verbo evolucionar. Participio regular 3ª persona plural. Tener un desarrollo positivo" },
+            { term: "Han generado", definition: "Perfecto del verbo generar. Participio regular 3ª persona plural. Desarrollar, crear" },
+            { term: "Han sido", definition: "Perfecto del verbo ser. Participio regular 3ª persona plural. Existir" },
+            { term: "Impulsar", definition: "Promover, desarrollar" },
+            { term: "Influyente", definition: "Adjetivo para describir a una persona con poder sobre otros, ya sea en el ámbito social, político o económico" },
+            { term: "La base", definition: "Fundamento, soporte, pilar" },
+            { term: "La corriente", definition: "Tendencia de los sentimientos o de las ideas" },
+            { term: "La entidad", definition: "La organización, la estructura" },
+            { term: "La gobernanza", definition: "El gobierno, la dirección o administración empresarial" },
+            { term: "La manifestación", definition: "Demostración, expresión, declaración, afirmación" },
+            { term: "La redefinición", definition: "Volver a definir de acuerdo con criterios distintos" },
+            { term: "La referencia", definition: "Narración o relación de algo, mención, alusión, cita" },
+            { term: "La soberanía", definition: "La autoridad, el poder, la independencia" },
+            { term: "Llevaron", definition: "Indefinido del verbo llevar. 3ª persona plural. Empezar, iniciar, realizar" },
+            { term: "Mutuo /a", definition: "Adjetivo. Recíproco" },
+            { term: "Precedente", definition: "Adjetivo. Anterior, previo" },
+            { term: "Propio", definition: "Personal, particular, inherente, perteneciente" },
+            { term: "Reafirmaban", definition: "Imperfecto del verbo reafirmar. Verbo regular 3ª persona plural. Confirmar; ratificar" },
+            { term: "Reciente", definition: "Adjetivo. Hace poco tiempo, actual" },
+            { term: "Se habían enfrentado", definition: "Pluscuamperfecto del verbo reflexivo enfrentarse. Participio regular 3ª persona plural. Luchar, combatir" },
+            { term: "Se han producido", definition: "Perfecto del verbo reflexivo producirse. Participio regular 3ª persona plural. Suceder, acontecer, pasar" },
+            { term: "Surgieron", definition: "Indefinido del verbo surgir. 3ª persona plural. Empezar, iniciar" }
+            // Add more terms here or load dynamically from a file
+        ];
+
+        // DOM elements
+        const sidebar = document.getElementById('terms-sidebar');
+        const definitionPanel = document.getElementById('definition-panel');
+        const alphabetButtons = document.querySelectorAll('.alphabet-btn');
+
+        // Function to get unique starting letters from glossary
+        function getActiveLetters() {
+            const letters = new Set();
+            glossaryData.forEach(item => {
+                const firstLetter = item.term.charAt(0).toUpperCase();
+                letters.add(firstLetter);
+            });
+            return letters;
+        }
+
+        // Disable unused alphabet buttons
+        function updateAlphabetButtons() {
+            const activeLetters = getActiveLetters();
+            alphabetButtons.forEach(button => {
+                const letter = button.dataset.letter;
+                if (letter === 'ALL') return; // Always enable "ALL"
+                button.disabled = !activeLetters.has(letter);
+            });
+        }
+
+        // Initialize glossary
+function renderGlossary(filterLetter = 'ALL') {
+    sidebar.innerHTML = '';
+    const filteredTerms = filterLetter === 'ALL' 
+        ? glossaryData 
+        : glossaryData.filter(item => 
+            item.term.charAt(0).toUpperCase() === filterLetter
+        );
+
+    if (filteredTerms.length === 0) {
+        sidebar.innerHTML = '<div class="term-item">No hay términos.</div>';
+        return;
+    }
+
+    filteredTerms.forEach(item => {
+        const termElement = document.createElement('div');
+        termElement.className = 'term-item';
+        termElement.innerHTML = `
+            ${item.term}
+            <span class="speaker-icon" data-term="${item.term}">🔊</span>
+        `;
+        termElement.addEventListener('click', () => {
+            document.querySelectorAll('.term-item').forEach(el => el.classList.remove('active'));
+            termElement.classList.add('active');
+            showDefinition(item.term, item.definition);
+        });
+        sidebar.appendChild(termElement);
+    });
+
+    // Add click event for speaker icons
+    document.querySelectorAll('.speaker-icon').forEach(icon => {
+        icon.addEventListener('click', (e) => {
+            e.stopPropagation(); // Prevent term selection when clicking the icon
+            speakTerm(icon.dataset.term);
+        });
+    });
+}
+
+        // Show definition in the right panel
+        function showDefinition(term, definition) {
+            definitionPanel.innerHTML = `
+                <div class="definition-title">${term}</div>
+                <div class="definition-content">${definition}</div>
+            `;
+        }
+
+        // Alphabet filter event listeners
+        alphabetButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                if (button.disabled) return; // Skip disabled buttons
+                alphabetButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                renderGlossary(button.dataset.letter);
+            });
+        });
+
+        // Initialize
+        updateAlphabetButtons(); // Disable unused letters
+        renderGlossary();
+
+function speakTerm(term) {
+    if ('speechSynthesis' in window) {
+        const utterance = new SpeechSynthesisUtterance(term);
+        utterance.lang = 'es-ES'; // Force Spanish pronunciation (change as needed)
+        window.speechSynthesis.speak(utterance);
+    } else {
+        alert("Tu navegador no soporta texto a voz. Prueba con Chrome o Edge.");
+    }
+}
+
+// ===== 1. CHECK FOR SPANISH TTS SUPPORT =====
+let isSpanishVoiceAvailable = false;
+
+function checkSpanishVoice() {
+    return new Promise((resolve) => {
+        if (!window.speechSynthesis) {
+            resolve(false);
+            return;
+        }
+
+        // Chrome loads voices asynchronously, so we need this workaround
+        const voices = window.speechSynthesis.getVoices();
+        if (voices.length > 0) {
+            isSpanishVoiceAvailable = voices.some(voice => 
+                voice.lang === 'es-ES' || voice.lang.startsWith('es-')
+            );
+            resolve(isSpanishVoiceAvailable);
+        } else {
+            // If voices aren't loaded yet, wait for the 'voiceschanged' event
+            window.speechSynthesis.onvoiceschanged = () => {
+                const voices = window.speechSynthesis.getVoices();
+                isSpanishVoiceAvailable = voices.some(voice => 
+                    voice.lang === 'es-ES' || voice.lang.startsWith('es-')
+                );
+                resolve(isSpanishVoiceAvailable);
+            };
+        }
+    });
+}
+
+// ===== 2. MODIFY renderGlossary() TO SHOW/HIDE ICONS =====
+async function renderGlossary(filterLetter = 'ALL') {
+    sidebar.innerHTML = '';
+    const filteredTerms = filterLetter === 'ALL' 
+        ? glossaryData 
+        : glossaryData.filter(item => 
+            item.term.charAt(0).toUpperCase() === filterLetter
+        );
+
+    if (filteredTerms.length === 0) {
+        sidebar.innerHTML = '<div class="term-item">No hay términos.</div>';
+        return;
+    }
+
+    // Check voice support once (optimization)
+    const showSpeakerIcon = await checkSpanishVoice();
+
+    filteredTerms.forEach(item => {
+        const termElement = document.createElement('div');
+        termElement.className = 'term-item';
+        termElement.innerHTML = `
+            ${item.term}
+            ${showSpeakerIcon ? `<span class="speaker-icon" data-term="${item.term}">🔊</span>` : ''}
+        `;
+        termElement.addEventListener('click', () => {
+            document.querySelectorAll('.term-item').forEach(el => el.classList.remove('active'));
+            termElement.classList.add('active');
+            showDefinition(item.term, item.definition);
+        });
+        sidebar.appendChild(termElement);
+    });
+
+    // Add click event for speaker icons (if shown)
+    if (showSpeakerIcon) {
+        document.querySelectorAll('.speaker-icon').forEach(icon => {
+            icon.addEventListener('click', (e) => {
+                e.stopPropagation();
+                speakTerm(icon.dataset.term);
+            });
+        });
+    }
+}
+
+// ===== 3. TTS FUNCTION (UNCHANGED) =====
+function speakTerm(term) {
+    if ('speechSynthesis' in window && isSpanishVoiceAvailable) {
+        const utterance = new SpeechSynthesisUtterance(term);
+        utterance.lang = 'es-ES'; // Force Spanish
+        window.speechSynthesis.speak(utterance);
+    }
+}
+
+    </script>
+</body>
+</html>

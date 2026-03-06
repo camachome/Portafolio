@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Regionalismos - TTS with Caching</title>
+    <style>
+        /* Your existing CSS styles */
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 20px;
+            margin: 2cm;
+            line-height: 1.6;
+        }
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            border-bottom: 0px dotted black;
+            text-decoration: none;
+        }
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 200px;
+            background-color: #0000FF;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            border: 0.2cm solid transparent;
+            border-top-color: #555;
+        }
+        .tooltip .tooltiptext::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #555 transparent transparent transparent;
+        }
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+        .green { color: #24b437; }
+        .red { color: red; }
+        .blue { color: blue; }
+        #tts-controls {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #f0f0f0;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            z-index: 1000;
+        }
+        .sentence-highlight {
+            background-color: #b7e4e8;
+            border-radius: 15px;
+        }
+        .tts-loading {
+            color: #666;
+            font-style: italic;
+        }
+    </style>
+    <!-- ResponsiveVoice with Spanish voice -->
+    <script src="https://code.responsivevoice.org/responsivevoice.js?key=GALn3mgT"></script>
+</head>
+<body>
+    <!-- TTS Controls -->
+    <div id="tts-controls">
+        <button id="play-btn">▶ Escuchar</button>
+        <button id="pause-btn">⏸ Pausar</button>
+        <button id="stop-btn">⏹ Parar</button>
+        <div>
+            <label>
+                Velocidad: <input type="range" id="rate" min="0.5" max="2" step="0.1" value="1">
+                <span id="rate-value">1.0</span>
+            </label>
+        </div>
+        <div id="tts-status">Listo</div>
+    </div>
+
+    <!-- Your visible content (same as before) -->
+    <div id="visible-content">
+</br>
+<p class=MsoNormal align=center style='margin-bottom:6.0pt;text-align:center;
+line-height:normal'><b><u><span lang=es-419 style='font-size:18.0pt;mso-bidi-font-family:
+Calibri;mso-bidi-theme-font:minor-latin;color:#202122;background:white;
+mso-ansi-language:#580A'>Estado y Nación<o:p></o:p></span></u></b></p>
+
+    <p class="tts-paragraph">
+    Los conceptos de Estado y Nación <span class="tooltip green">han sido<span class="tooltiptext">Perfecto del verbo ser. Participio regular 3ª persona plural. Existir</span></span> fundamentales en la organización política y social de las sociedades <span class="tooltip red">a lo largo<span class="tooltiptext">Que tiene mucha longitud, extenso en el tiempo</span></span> de la historia. Mientras el Estado <span class="tooltip blue">se define<span class="tooltiptext">Tomar una posición</span></span> como una <span class="tooltip red">entidad<span class="tooltiptext">La organización, la estructura</span></span> política con territorio delimitado, gobierno y <span class="tooltip red">soberanía<span class="tooltiptext">La autoridad, el poder, la independencia</span></span>, la Nación hace <span class="tooltip red">referencia<span class="tooltiptext">Narración o relación de algo, mención, alusión, cita</span></span> a un grupo de personas que <span class="tooltip blue">comparten<span class="tooltiptext">Tener en común, en general</span></span> cultura, historia, lengua y, en muchos casos, una identidad <span class="tooltip red">común<span class="tooltiptext">Colectivo, general</span></span>. A lo largo del tiempo, estos conceptos <span class="tooltip green">han evolucionado<span class="tooltiptext">Perfecto del verbo evolucionar. Participio regular 3ª persona plural. Tener un desarrollo positivo</span></span>  y <span class="tooltip green">han generado<span class="tooltiptext">Perfecto del verbo generar. Participio regular 3ª persona plural. Desarrollar, crear</span></span> diferentes <span class="tooltip red">corrientes<span class="tooltiptext">Tendencia de los sentimientos o de las ideas</span></span> ideológicas, entre ellas el nacionalismo y el <span class="tooltip red">supranacionalismo<span class="tooltiptext">El supranacionalismo es una unión internacional donde los estados miembros delegan parte de su soberanía para perseguir objetivos compartidos</span></span>.
+    </p>     
+        <p class="tts-paragraph">
+    El nacionalismo <span class="tooltip green">ha sido<span class="tooltiptext">Perfecto del verbo ser. Participio regular 3ª persona singular. Existir</span></span> una de las fuerzas políticas más <span class="tooltip red">influyentes<span class="tooltiptext">Adjetivo para describir a una persona con poder sobre otros, ya sea en el ámbito social, político o económico</span></span> desde el siglo XIX. Este movimiento <span class="tooltip green">ha promovido<span class="tooltiptext">Perfecto del verbo promover. Participio regular 3ª persona singular. Impulsar, desarrollar</span></span> la idea de que cada nación debe tener su <span class="tooltip red">propio<span class="tooltiptext">Personal, particular, inherente, perteneciente</span></span> Estado, lo que <span class="tooltip green">ha llevado<span class="tooltiptext">Perfecto del verbo llevar. Participio regular 3ª persona singular. Conducir, transportar, traer</span></span> a la formación de nuevos países y a la <span class="tooltip red">redefinición<span class="tooltiptext">Volver a definir de acuerdo con criterios distintos</span></span> de fronteras. En el siglo XIX, muchos movimientos nacionalistas <span class="tooltip green">surgieron<span class="tooltiptext">Indefinido del verbo surgir. 3ª persona plural. Empezar, iniciar</span></span> en Europa y América, <span class="tooltip blue">impulsando<span class="tooltiptext">Promover, desarrollar</span></span> la independencia de varias regiones y <span class="tooltip blue">fortaleciendo<span class="tooltiptext">Revitalizar, mejorar, hacer más fuerte</span></span> la idea del Estado-nación.
+    </p>     
+        <p class="tts-paragraph">
+    El nacionalismo <span class="tooltip green">ha tenido<span class="tooltiptext">Perfecto del verbo tener. Participio regular 3ª persona singular. Poseer</span></span> <span class="tooltip red">manifestaciones<span class="tooltiptext">Demostración, expresión, declaración, afirmación</span></span> tanto positivas como negativas. <span class="tooltip green">Ha servido<span class="tooltiptext">Perfecto del verbo servir. Participio regular 3ª persona singular. Valer, ser de utilidad</span></span> para unir comunidades y fortalecer la identidad cultural, pero también <span class="tooltip green">ha causado<span class="tooltiptext">Perfecto del verbo causar. Participio regular 3ª persona singular. Ocasionar, provocar algo</span></span> conflictos y guerras.
+    </p>     
+        <p class="tts-paragraph">
+    Durante el siglo XX, algunos regímenes nacionalistas <span class="tooltip green">llevaron<span class="tooltiptext">Indefinido del verbo llevar. 3ª persona plural. Empezar, iniciar, realizar</span></span> a políticas <span class="tooltip red">expansionistas<span class="tooltiptext">Partidario de agrandar, ampliar, extender</span></span> y discriminatorias. Por ejemplo, en la década de 1930, el nacionalismo extremo <span class="tooltip green">desembocó<span class="tooltiptext">Indefinido del verbo desembocar. 3ª persona singular. Concluir, terminar</span></span> en el <span class="tooltip red">ascenso<span class="tooltiptext">Superación, mejora de posición, crecimiento</span></span> de regímenes totalitarios en Europa, con consecuencias <span class="tooltip red">devastadoras<span class="tooltiptext">Adjetivo. Destructor, catastrófico</span></span>.
+    </p>     
+        <p class="tts-paragraph">
+    El supranacionalismo, <span class="tooltip red">en contraste<span class="tooltiptext">Al contrario, a diferencia de</span></span>, busca la cooperación y la integración entre Estados más allá de las fronteras nacionales. <span class="tooltip green">Ha surgido<span class="tooltiptext">Perfecto del verbo surgir. Participio regular 3ª persona singular. Aparecer, nacer</span></span> como una respuesta a los problemas <span class="tooltip blue">generados<span class="tooltiptext">Desarrollar</span></span> por el nacionalismo extremo y <span class="tooltip green">ha promovido<span class="tooltiptext">Perfecto del verbo promover. Participio regular 3ª persona singular. Impulsar, fomentar</span></span> la colaboración internacional en diversas <span class="tooltip red">áreas<span class="tooltiptext">Ámbito, lugar</span></span>, como la economía, la política y la seguridad. La Unión Europea es un ejemplo <span class="tooltip red">claro<span class="tooltiptext">Adjetivo. Nítido, preciso, definido</span></span> de supranacionalismo, ya que <span class="tooltip green">ha logrado<span class="tooltiptext">Perfecto del verbo lograr. Participio regular 3ª persona singular. Conseguir, alcanzar, llegar a una meta</span></span> unir a diferentes países en un sistema de <span class="tooltip red">gobernanza<span class="tooltiptext">El gobierno, la dirección o administración empresarial</span></span> <span class="tooltip red">compartida<span class="tooltiptext">Adjetivo, que se puede compartir, que se puede dividir, repartir</span></span>.
+    </p>     
+        <p class="tts-paragraph">
+    En la historia <span class="tooltip red">reciente<span class="tooltiptext">Adjetivo. Hace poco tiempo, actual</span></span>, <span class="tooltip green">se han producido<span class="tooltiptext">Perfecto del verbo reflexivo producirse. Participio regular 3ª persona plural. Suceder, acontecer, pasar</span></span> grandes avances en la integración supranacional. Después de la Segunda Guerra Mundial, Europa <span class="tooltip green">había quedado<span class="tooltiptext">Pluscuamperfecto del verbo quedar. Participio regular 3ª persona singular. Acabar, terminar</span></span> <span class="tooltip red">devastada<span class="tooltiptext">Adjetivo. Destruido</span></span> y sus líderes <span class="tooltip green">comprendieron<span class="tooltiptext">Indefinido del verbo comprender. Verbo regular. 3ª persona plural. Entender, darse cuenta</span></span> la necesidad de <span class="tooltip blue">evitar<span class="tooltiptext">Impedir que algo suceda o tenga lugar</span></span> futuros conflictos. Se <span class="tooltip green">crearon<span class="tooltiptext">Indefinido del verbo crear. 3ª persona plural. Fundar, establecer</span></span> instituciones como la Comunidad Económica Europea en 1957, que luego <span class="tooltip green">evolucionó<span class="tooltiptext">Indefinido del verbo evolucionar. 3ª persona singular. Tener un desarrollo positivo</span></span> hasta <span class="tooltip blue">convertirse<span class="tooltiptext">Proceso de cambiar, transformar o modificar</span></span> en la Unión Europea. Los países miembros <span class="tooltip green">han cedido<span class="tooltiptext">Perfecto del verbo ceder. Participio regular 3ª persona plural. Entregar, dar, transferir</span></span> parte de su soberanía para trabajar juntos en <span class="tooltip red">beneficio<span class="tooltiptext">La ganancia, el usufructo</span></span> <span class="tooltip red">mutuo<span class="tooltiptext">Adjetivo. Recíproco</span></span>.
+    </p>     
+        <p class="tts-paragraph">
+    La Unión Europea <span class="tooltip green">ha representado<span class="tooltiptext">Perfecto del verbo representar. Participio regular 3ª persona singular. Significar, ser.</span></span> uno de los intentos más <span class="tooltip red">ambiciosos<span class="tooltiptext">Adjetivo. Codicioso, plan que desea mucho éxito</span></span> de supranacionalidad en la historia moderna. Desde su creación, los países miembros <span class="tooltip green">habían cedido<span class="tooltiptext">Pluscuamperfecto del verbo ceder. Participio regular 3ª persona plural. Entregar, dar, transferir</span></span> parte de su soberanía para <span class="tooltip blue">favorecer<span class="tooltiptext">Beneficiar, apoyar</span></span> una integración económica, política y social sin <span class="tooltip red">precedentes<span class="tooltiptext">Adjetivo. Anterior, previo</span></span>. Antes de su consolidación, los Estados europeos <span class="tooltip green">se habían enfrentado<span class="tooltiptext">Pluscuamperfecto del verbo reflexivo enfrentarse. Participio regular 3ª persona plural. Luchar, combatir</span></span> en numerosos conflictos que <span class="tooltip green">debilitaban<span class="tooltiptext">Imperfecto del verbo debilitar. Verbo regular 3ª persona plural. Disminuir la fuerza</span></span> el continente y <span class="tooltip green">generaban<span class="tooltiptext">Imperfecto del verbo generar. Verbo regular 3ª persona plural. Producir, crear</span></span> inestabilidad.
+    </p>     
+        <p class="tts-paragraph">
+    En 1957, con la firma del Tratado de Roma, se <span class="tooltip green">había sentado<span class="tooltiptext">Pluscuamperfecto del verbo sentar. Participio regular 3ª persona singular. Establecer, definir</span></span> <span class="tooltip red">la base<span class="tooltiptext">Fundamento, soporte, pilar</span></span> para una comunidad económica que más tarde <span class="tooltip blue">se convertía<span class="tooltiptext">transformarse</span></span> en la Unión Europea. A finales del siglo XX, los Estados miembros <span class="tooltip green">habían establecido<span class="tooltiptext">Pluscuamperfecto del verbo establecer. Participio regular 3ª persona plural. Sentar, definir</span></span> una moneda común, el euro, fortaleciendo aún más su unidad económica.
+    </p>     
+        <p class="tts-paragraph">
+    A pesar de estos avances, el supranacionalismo también <span class="tooltip green">ha encontrado<span class="tooltiptext">Perfecto del verbo encontrar. Participio regular 3ª persona singular. Tener, enfrentarse</span></span> oposición. Algunos sectores políticos <span class="tooltip green">han argumentado<span class="tooltiptext">Perfecto del verbo argumentar. Participio regular 3ª persona plural. Exponer, aclarar, demostrar</span></span> que la pérdida de soberanía <span class="tooltip blue">afecta<span class="tooltiptext">Influir</span></span> la identidad nacional y la capacidad de los gobiernos para tomar decisiones independientes. Este sentimiento <span class="tooltip green">ha llevado<span class="tooltiptext">Perfecto del verbo llevar. Participio regular 3ª persona singular. Conducir, dirigir</span></span> al <span class="tooltip red">auge<span class="tooltiptext">Momento de mayor intensidad, apogeo, cúspide</span></span> de movimientos nacionalistas en varios países europeos y al Brexit, el proceso mediante el cual el Reino Unido <span class="tooltip green">decidió<span class="tooltiptext">Indefinido del verbo decidir. 3ª persona singular. Determinar, resolver</span></span> <span class="tooltip blue">abandonar<span class="tooltiptext">Dejar, retirarse</span></span> la Unión Europea en 2016.
+    </p>     
+        <p class="tts-paragraph">
+    El nacionalismo y el supranacionalismo <span class="tooltip green">han coexistido<span class="tooltiptext">Perfecto del verbo coexistir. Participio regular 3ª persona plural. Convivir, coincidir</span></span> a lo largo de la historia con distintas intensidades. En algunos momentos, el nacionalismo <span class="tooltip green">ha predominado<span class="tooltiptext">Perfecto del verbo predominar. Participio regular 3ª persona singular. Sobresalir, destacar, dominar, aventajar</span></span>. Durante el siglo XIX, el nacionalismo <span class="tooltip green">era<span class="tooltiptext">Imperfecto del verbo ser. Verbo irregular 3ª persona singular. Existir</span></span> la fuerza dominante en Europa. Muchos países <span class="tooltip green">buscaban<span class="tooltiptext">Imperfecto del verbo buscar. Verbo regular 3ª persona plural. Hacer algo para encontrar o conseguir algo</span></span> su independencia y <span class="tooltip green">reafirmaban<span class="tooltiptext">Imperfecto del verbo reafirmar. Verbo regular 3ª persona plural. Confirmar; ratificar</span></span> su identidad a través de la lengua, la cultura y la historia. En ese entonces, las fronteras se <span class="tooltip green">establecían<span class="tooltiptext">Imperfecto del verbo establecer. Verbo regular 3ª persona plural. Fundar, definir, crear, constituir</span></span> según criterios étnicos y políticos. Los líderes <span class="tooltip green">creían<span class="tooltiptext">Imperfecto del verbo creer. Verbo regular 3ª persona plural. Pensar, opinar, tener fe </span></span> que un Estado solo <span class="tooltip green">podía<span class="tooltiptext">Imperfecto del verbo poder. Verbo regular 3ª persona singular. Lograr, alcanzar, tener capacidad</span></span> ser fuerte si <span class="tooltip green">mantenía<span class="tooltiptext">Imperfecto del verbo mantener. Verbo regular 3ª persona singular. Defender, conservar</span></span> su autonomía absoluta. En las últimas <span class="tooltip red">décadas<span class="tooltiptext">10 años son una década</span></span> la cooperación entre Estados <span class="tooltip green">ha sido<span class="tooltiptext">Perfecto del verbo ser. Participio regular 3ª persona singular. Existir</span></span> prioritaria, como en la formación de la ONU y la UE después de la Segunda Guerra Mundial.
+    </p>     
+        <p class="tts-paragraph">
+    Durante el siglo XX, el <span class="tooltip red">equilibrio<span class="tooltiptext">La estabilidad, la proporción</span></span> entre ambos conceptos <span class="tooltip green">ha cambiado<span class="tooltiptext">Perfecto del verbo cambiar. Participio regular 3ª persona singular. Transformar, modificar</span></span> <span class="tooltip red">según<span class="tooltiptext">Preposición. Conforme a, con arreglo a, de acuerdo con</span></span> el contexto político y económico. En tiempos de crisis, el nacionalismo <span class="tooltip green">ha cobrado<span class="tooltiptext">Perfecto del verbo cobrar. Participio regular 3ª persona singular. Tomar importancia</span></span> fuerza, mientras que, en períodos de estabilidad, el supranacionalismo <span class="tooltip green">ha permitido<span class="tooltiptext">Perfecto del verbo permitir. Participio regular 3ª persona singular. Posibilitar</span></span> la cooperación. Sin embargo, en la actualidad, la globalización <span class="tooltip green">ha desafiado<span class="tooltiptext">Perfecto del verbo desafiar. Participio regular 3ª persona singular. Retar</span></span> las estructuras tradicionales de Estado y Nación, generando nuevos dilemas.
+    </p>     
+        <p class="tts-paragraph">
+    Los conceptos de Estado, Nación, nacionalismo y supranacionalismo <span class="tooltip green">han evolucionado<span class="tooltiptext">Perfecto del verbo evolucionar. Participio regular 3ª persona plural. Desarrollarse de forma positiva</span></span> con el tiempo y <span class="tooltip green">han moldeado<span class="tooltiptext">Perfecto del verbo moldear. Participio regular 3ª persona plural. Dar forma, configurar</span></span> el mundo contemporáneo. Mientras el nacionalismo <span class="tooltip green">ha fortalecido<span class="tooltiptext">Perfecto del verbo fortalecer. Participio regular 3ª persona singular. Revitalizar, mejorar, hacer más fuerte</span></span> la identidad de los pueblos, el supranacionalismo <span class="tooltip green">ha buscado<span class="tooltiptext">Perfecto del verbo buscar. Participio regular 3ª persona singular. Hacer algo para encontrar o conseguir algo</span></span> la cooperación y la estabilidad global. <span class="tooltip red">Ambos<span class="tooltiptext">Adjetivo. Dos, uno y otro juntos</span></span> seguirán <span class="tooltip blue">influyendo<span class="tooltiptext">Ayudar, respaldar, influenciar</span></span> en la política internacional, <span class="tooltip blue">dependiendo<span class="tooltiptext">Estar subordinado a algo o alguien, obedecer</span></span> de los <span class="tooltip red">desafíos<span class="tooltiptext">El reto, el enfrentamiento, la apuesta</span></span> y oportunidades que <span class="tooltip blue">enfrenten<span class="tooltiptext">Contraponer, afrontar</span></span> las sociedades en el futuro.
+    </p>     
+    
+         
+<br>
+<br>
+
+    </div>
+
+<!-- HIDDEN TTS CONTENT (NO TOOLTIPS) -->
+<div id="tts-content" style="display:none">
+
+    <p>
+        Los conceptos de Estado y Nación han sido fundamentales en la organización política y social de las sociedades a lo largo de la historia. Mientras el Estado se define como una entidad política con territorio delimitado, gobierno y soberanía, la Nación hace referencia a un grupo de personas que comparten cultura, historia, lengua y, en muchos casos, una identidad común. A lo largo del tiempo, estos conceptos han evolucionado y han generado diferentes corrientes ideológicas, entre ellas el nacionalismo y el supranacionalismo.
+        </p>
+        <p>
+        El nacionalismo ha sido una de las fuerzas políticas más influyentes desde el siglo XIX. Este movimiento ha promovido la idea de que cada nación debe tener su propio Estado, lo que ha llevado a la formación de nuevos países y a la redefinición de fronteras. En el siglo XIX, muchos movimientos nacionalistas surgieron en Europa y América, impulsando la independencia de varias regiones y fortaleciendo la idea del Estado-nación.
+        </p>
+        <p>
+        El nacionalismo ha tenido manifestaciones tanto positivas como negativas. Ha servido para unir comunidades y fortalecer la identidad cultural, pero también ha causado conflictos y guerras.
+        </p>
+        <p>
+        Durante el siglo XX, algunos regímenes nacionalistas llevaron a políticas expansionistas y discriminatorias. Por ejemplo, en la década de 1930, el nacionalismo extremo desembocó en el ascenso de regímenes totalitarios en Europa, con consecuencias devastadoras.
+        </p>
+        <p>
+        El supranacionalismo, en contraste, busca la cooperación y la integración entre Estados más allá de las fronteras nacionales. Ha surgido como una respuesta a los problemas generados por el nacionalismo extremo y ha promovido la colaboración internacional en diversas áreas, como la economía, la política y la seguridad. La Unión Europea es un ejemplo claro de supranacionalismo, ya que ha logrado unir a diferentes países en un sistema de gobernanza compartida.
+        </p>
+        <p>
+        En la historia reciente, se han producido grandes avances en la integración supranacional. Después de la Segunda Guerra Mundial, Europa había quedado devastada y sus líderes comprendieron la necesidad de evitar futuros conflictos. Se crearon instituciones como la Comunidad Económica Europea en 1957, que luego evolucionó hasta convertirse en la Unión Europea. Los países miembros han cedido parte de su soberanía para trabajar juntos en beneficio mutuo.
+        </p>
+        <p>
+        La Unión Europea ha representado uno de los intentos más ambiciosos de supranacionalidad en la historia moderna. Desde su creación, los países miembros habían cedido parte de su soberanía para favorecer una integración económica, política y social sin precedentes. Antes de su consolidación, los Estados europeos se habían enfrentado en numerosos conflictos que debilitaban el continente y generaban inestabilidad.
+        </p>
+        <p>
+        En 1957, con la firma del Tratado de Roma, se había sentado la base para una comunidad económica que más tarde se convertiría en la Unión Europea. A finales del siglo XX, los Estados miembros habían establecido una moneda común, el euro, fortaleciendo aún más su unidad económica.
+        </p>
+        <p>
+        A pesar de estos avances, el supranacionalismo también ha encontrado oposición. Algunos sectores políticos han argumentado que la pérdida de soberanía afecta la identidad nacional y la capacidad de los gobiernos para tomar decisiones independientes. Este sentimiento ha llevado al auge de movimientos nacionalistas en varios países europeos y al Brexit, el proceso mediante el cual el Reino Unido decidió abandonar la Unión Europea en 2016.
+        </p>
+        <p>
+        El nacionalismo y el supranacionalismo han coexistido a lo largo de la historia con distintas intensidades. En algunos momentos, el nacionalismo ha predominado. Durante el siglo XIX, el nacionalismo era la fuerza dominante en Europa. Muchos países buscaban su independencia y reafirmaban su identidad a través de la lengua, la cultura y la historia. En ese entonces, las fronteras se establecían según criterios étnicos y políticos. Los líderes creían que un Estado solo podía ser fuerte si mantenía su autonomía absoluta. En las últimas décadas la cooperación entre Estados ha sido prioritaria, como en la formación de la ONU y la UE después de la Segunda Guerra Mundial.
+        </p>
+        <p>
+        Durante el siglo XX, el equilibrio entre ambos conceptos ha cambiado según el contexto político y económico. En tiempos de crisis, el nacionalismo ha cobrado fuerza, mientras que, en períodos de estabilidad, el supranacionalismo ha permitido la cooperación. Sin embargo, en la actualidad, la globalización ha desafiado las estructuras tradicionales de Estado y Nación, generando nuevos dilemas.
+        </p>
+        <p>
+        Los conceptos de Estado, Nación, nacionalismo y supranacionalismo han evolucionado con el tiempo y han moldeado el mundo contemporáneo. Mientras el nacionalismo ha fortalecido la identidad de los pueblos, el supranacionalismo ha buscado la cooperación y la estabilidad global. Ambos seguirán influyendo en la política internacional, dependiendo de los desafíos y oportunidades que enfrenten las sociedades en el futuro.
+        </p>
+        
+
+<p>
+
+
+    </p>
+<br>
+<br>
+    
+
+</div>
+
+    <script>
+        // Audio cache system
+        const audioCache = new Map();
+        let isPlaying = false;
+        let currentParagraphIndex = 0;
+        let useResponsiveVoice = true;
+        
+        // DOM elements
+        const playBtn = document.getElementById('play-btn');
+        const pauseBtn = document.getElementById('pause-btn');
+        const stopBtn = document.getElementById('stop-btn');
+        const rateInput = document.getElementById('rate');
+        const rateValue = document.getElementById('rate-value');
+        const statusDisplay = document.getElementById('tts-status');
+        const visibleParagraphs = document.querySelectorAll('#visible-content .tts-paragraph');
+        const ttsParagraphs = document.querySelectorAll('#tts-content p');
+
+        // Initialize ResponsiveVoice
+        function initTTS() {
+            if (typeof responsiveVoice === 'undefined') {
+                statusDisplay.textContent = "Error: No se pudo cargar el servicio de voz";
+                useResponsiveVoice = false;
+                return false;
+            }
+            
+            if (!responsiveVoice.voiceSupport('Spanish Latin American Male')) {
+                statusDisplay.textContent = "Voz en español no disponible - usando alternativa";
+                useResponsiveVoice = false;
+                return false;
+            }
+            
+            return true;
+        }
+
+        // Speak with caching
+        function speakWithCache(text, paragraphId) {
+            return new Promise((resolve) => {
+                const cacheKey = `${paragraphId}_${text.substring(0, 30)}`;
+                
+                // Check cache first
+                if (audioCache.has(cacheKey)) {
+                    statusDisplay.textContent = "Reproduciendo (en caché)...";
+                    responsiveVoice.speak(text, "Spanish Latin American Female", {
+                        rate: rateInput.value,
+                        onend: resolve
+                    });
+                    return;
+                }
+                
+                // Not in cache - speak and cache
+                statusDisplay.textContent = "Generando audio...";
+                responsiveVoice.speak(text, "Spanish Latin American Female", {
+                    rate: rateInput.value,
+                    onstart: () => {
+                        audioCache.set(cacheKey, true); // Mark as cached
+                        statusDisplay.textContent = "Reproduciendo...";
+                    },
+                    onend: resolve
+                });
+            });
+        }
+
+        // Browser fallback
+        function speakWithBrowser(text) {
+            return new Promise((resolve) => {
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'es-ES';
+                utterance.rate = rateInput.value;
+                utterance.onend = resolve;
+                speechSynthesis.speak(utterance);
+            });
+        }
+
+        // Main speak function
+        async function speakParagraph(text, paragraphId) {
+            try {
+                if (useResponsiveVoice) {
+                    await speakWithCache(text, paragraphId);
+                } else {
+                    await speakWithBrowser(text);
+                }
+            } catch (error) {
+                console.error("TTS Error:", error);
+                statusDisplay.textContent = "Error de reproducción";
+            }
+        }
+
+        // Play control
+        async function playAll() {
+            if (isPlaying) return;
+            
+            isPlaying = true;
+            statusDisplay.textContent = "Iniciando...";
+            
+            for (let i = currentParagraphIndex; i < ttsParagraphs.length; i++) {
+                if (!isPlaying) break;
+                
+                const text = ttsParagraphs[i].textContent;
+                visibleParagraphs[i].classList.add('sentence-highlight');
+                visibleParagraphs[i].scrollIntoView({ behavior: 'smooth', block: 'center' });
+                
+                await speakParagraph(text, i);
+                
+                visibleParagraphs[i].classList.remove('sentence-highlight');
+                currentParagraphIndex = i + 1;
+            }
+            
+            isPlaying = false;
+            statusDisplay.textContent = "Completado";
+            currentParagraphIndex = 0;
+        }
+
+        // Event listeners
+        playBtn.addEventListener('click', playAll);
+        pauseBtn.addEventListener('click', () => {
+            if (isPlaying) {
+                isPlaying = false;
+                responsiveVoice.cancel();
+                speechSynthesis.cancel();
+                statusDisplay.textContent = "Pausado";
+            }
+        });
+        stopBtn.addEventListener('click', () => {
+            isPlaying = false;
+            responsiveVoice.cancel();
+            speechSynthesis.cancel();
+            removeHighlights();
+            currentParagraphIndex = 0;
+            statusDisplay.textContent = "Detenido";
+        });
+        rateInput.addEventListener('input', () => {
+            rateValue.textContent = rateInput.value;
+        });
+
+        // Paragraph click handlers
+        visibleParagraphs.forEach((para, index) => {
+            para.addEventListener('click', async () => {
+                isPlaying = false;
+                responsiveVoice.cancel();
+                speechSynthesis.cancel();
+                removeHighlights();
+                
+                currentParagraphIndex = index;
+                para.classList.add('sentence-highlight');
+                statusDisplay.textContent = "Preparando...";
+                
+                await speakParagraph(ttsParagraphs[index].textContent, index);
+                
+                para.classList.remove('sentence-highlight');
+                statusDisplay.textContent = "Listo";
+            });
+        });
+
+        // Helper functions
+        function removeHighlights() {
+            visibleParagraphs.forEach(p => p.classList.remove('sentence-highlight'));
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            if (!initTTS()) {
+                statusDisplay.textContent = "Usando voz del navegador";
+            }
+        });
+    </script>
+</body>
+</html>
